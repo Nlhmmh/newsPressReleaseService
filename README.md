@@ -2,7 +2,10 @@
 あるウェブサイトを参考し、プレスリリースニュース配信サービス
 
 ### 言語
-Java
+Java<br/>
+HTML5<br/>
+CSS<br/>
+Javascript<br/>
 
 ### フレームワーク
 Thymeleaf<br/>
