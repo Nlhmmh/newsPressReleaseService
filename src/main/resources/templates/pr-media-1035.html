@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<head>
+	<meta charset="UTF-8">
+	<title>メディア検索画面</title>
+	</head>
+	<body>
+	
+		<h2>検索</h2><br>
+		
+		<div th:text="${12345}"> </div><br>
+		
+		<div sec:authorize="hasRole('ADMIN')">
+			 admin visible
+		</div><br>
+		
+		<div>userId: <span sec:authentication="principal.Id"></span></div><br>
+		<div>Welcome! <span sec:authentication="principal.name"></span></div><br>
+		
+		<br><br><br><br>
+		<form action="/logout" method="post">
+		    <input type="submit" value="logout"/>
+		</form>
+		
+	</body>
+</html>

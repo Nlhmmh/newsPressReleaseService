@@ -1,0 +1,128 @@
+@charset "UTF-8";
+
+/* HomePage */
+.my-pr-a-tag a {
+    color: black;
+    font-weight: bold;
+}
+
+.my-pr-a-tag a:hover {
+    text-decoration: underline;
+}
+
+.link a {
+    padding: 0 15px 0 0;
+}
+
+.my-header {
+    background-color: purple;
+    color: white;
+}
+
+.my-header a {
+    color: white;
+    font-weight: bold;
+}
+
+.my-header a:hover {
+    text-decoration: none;
+}
+
+.footlink {
+    padding: 15px 0;
+}
+
+.my-pr-card {
+    font-size: xx-small;
+    line-height: 0.5;
+}
+
+.my-ranking-nav {
+    font-size: large;
+}
+
+.my-ranking-nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.my-ranking-nav > .active {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    background-color: blue;
+}
+
+.my-ranking-nav > .active > a {
+    color: white;
+}
+
+.my-div:hover{
+    color: white;
+    font-weight: bold;
+    background-color: blue;
+}
+
+.my-div:hover a{
+    color: white;
+}
+
+.my-side {
+    background-color: rgb(240, 231, 231);
+}
+
+.my-side a {
+    text-decoration: none;
+    color: black;
+    font-size: medium;
+}
+
+.my-side div {
+    background-color: white;
+    border: 1px solid;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.my-notify a {
+    text-decoration: underline;
+    color: blue;
+    font-weight: normal;
+}
+
+/* メディア登録、個人登録 */
+.my-checkbox {
+    width: 18px;
+    height: 18px;
+}
+
+.my-checkbox-row a {
+    color: blue;
+    text-decoration: underline;
+}
+
+.my-checkbox-row a:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
+.my-register-button {
+    width: 300px;
+    height: 70px;
+    background: orange;
+    padding: 20px;
+}
+    
+/* Login PopUp */
+.button {
+    width: 250px;
+    height: 70px;
+    background: #4E9CAF;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+}

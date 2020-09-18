@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+</head>
+
+<body>
+  <!-- 企業の共通左側サイドバ -->
+  <div th:fragment="companySideMenu">
+
+    <style>
+      /* Company SideBar */
+      .comSideBar {
+        font-size: smaller;
+        border-right: 1px solid;
+        height: 100vh;
+        background-color: lightgray;
+      }
+
+      .comSideBar i {
+        font-size: x-large;
+      }
+
+      .comSideBar .active {
+        color: white;
+        background-color: purple;
+      }
+
+      .comSideBar a {
+        color: black;
+        text-decoration: none;
+        margin: 0px;
+        border-bottom: 1px solid;
+      }
+
+      .comSideBar a:hover {
+        color: white;
+        background-color: purple;
+      }
+
+      .comSideBar2 {
+        font-size: smaller;
+        border-right: 1px solid;
+        height: 100vh;
+        background-color: lightgray;
+      }
+
+      .comSideBar2 .active {
+        color: white;
+        background-color: purple;
+      }
+
+      .comSideBar2 a {
+        color: black;
+        text-decoration: none;
+        margin: 0px;
+        border-bottom: 1px solid;
+      }
+
+      .comSideBar2 a:hover {
+        color: white;
+        background-color: purple;
+      }
+    </style>
+
+    <script>
+      function pr_onclick() {
+        reset_display();
+        var minisidebar1 = $("#minisidebar1");
+        var sideMenu = $("#sideMenu");
+        var sideContent = $("#sideContent");
+        var sideWrapper = $("#sidebar-wrapper");
+        minisidebar1.css("display", "block");
+        sideMenu.removeClass("col-1");
+        sideContent.removeClass("col-11");
+        sideWrapper.removeClass("col-12");
+        sideWrapper.addClass("col-6");
+        sideMenu.addClass("col-2");
+        sideContent.addClass("col-10");
+      }
+
+      function media_onclick() {
+        reset_display();
+        var minisidebar2 = $("#minisidebar2");
+        var sideMenu = $("#sideMenu");
+        var sideContent = $("#sideContent");
+        var sideWrapper = $("#sidebar-wrapper");
+        minisidebar2.css("display", "block");
+        sideMenu.removeClass("col-1");
+        sideContent.removeClass("col-11");
+        sideWrapper.removeClass("col-12");
+        sideWrapper.addClass("col-6");
+        sideMenu.addClass("col-2");
+        sideContent.addClass("col-10");
+      }
+
+      function report_onclick() {
+        reset_display();
+        var minisidebar3 = $("#minisidebar3");
+        var sideMenu = $("#sideMenu");
+        var sideContent = $("#sideContent");
+        var sideWrapper = $("#sidebar-wrapper");
+        minisidebar3.css("display", "block");
+        sideMenu.removeClass("col-1");
+        sideContent.removeClass("col-11");
+        sideWrapper.removeClass("col-12");
+        sideWrapper.addClass("col-6");
+        sideMenu.addClass("col-2");
+        sideContent.addClass("col-10");
+      }
+
+      function setting_onclick() {
+        reset_display();
+        var minisidebar4 = $("#minisidebar4");
+        var sideMenu = $("#sideMenu");
+        var sideContent = $("#sideContent");
+        var sideWrapper = $("#sidebar-wrapper");
+        minisidebar4.css("display", "block");
+        sideMenu.removeClass("col-1");
+        sideContent.removeClass("col-11");
+        sideWrapper.removeClass("col-12");
+        sideWrapper.addClass("col-6");
+        sideMenu.addClass("col-2");
+        sideContent.addClass("col-10");
+      }
+
+      function reset_display() {
+        var minisidebar1 = $("#minisidebar1");
+        var minisidebar2 = $("#minisidebar2");
+        var minisidebar3 = $("#minisidebar3");
+        var minisidebar4 = $("#minisidebar4");
+        minisidebar1.css("display", "none");
+        minisidebar2.css("display", "none");
+        minisidebar3.css("display", "none");
+        minisidebar4.css("display", "none");
+      }
+    </script>
+
+    <!-- 共通左側サイドバー -->
+    <div class="row m-0 p-0">
+
+      <!-- メインサイドバー -->
+      <div class="comSideBar col-12 p-0" id="sidebar-wrapper">
+        <div class="list-group p-0 text-center">
+          <a href="/company/index" class="p-3">
+            <i class="fas fa-list"></i><br>
+            ダッシュボード
+          </a>
+          <a href="#" onclick="pr_onclick()" class="p-3 text-center">
+            <i class="far fa-newspaper"></i><br>
+            プレスリリース
+          </a>
+          <a href="#" onclick="media_onclick()" class="p-3 text-center">
+            <i class="fas fa-building"></i><br>
+            メディアリスト
+          </a>
+          <a href="#" onclick="report_onclick()" class="p-3 text-center">
+            <i class="fas fa-poll"></i><br>
+            分析データ
+          </a>
+          <a href="#" onclick="setting_onclick()" class="p-3 text-center">
+            <i class="fas fa-cog"></i><br>
+            設定
+          </a>
+        </div>
+      </div>
+
+      <!-- プレスリリースサイドバー -->
+      <div class="comSideBar2 col-6 p-0" id="minisidebar1" style="display: none;">
+        <div class="list-group" style="font-size: smaller;">
+          <a href="/company/press_release_list" class="p-3 text-center">
+            プレスリリース一覧
+          </a>
+          <a href="/company/press_release_register" class="p-3 text-center">
+            プレスリリース新規登録・編集
+          </a>
+        </div>
+      </div>
+
+      <!-- メディアサイドバー -->
+      <div class="comSideBar2 col-6 p-0" id="minisidebar2" style="display: none;">
+        <div class="list-group" style="font-size: smaller;">
+          <a href="/company/media_list" class="p-3 text-center">
+            メディアリスト一覧
+          </a>
+          <a href="/company/media_list_register" class="p-3 text-center">
+            メディアリスト新規登録
+          </a>
+        </div>
+      </div>
+
+      <!-- 分析サイドバー -->
+      <div class="comSideBar2 col-6 p-0" id="minisidebar3" style="display: none;">
+        <div class="list-group" style="font-size: smaller;">
+          <a href="/company/report_list" class="p-3 text-center">
+            レポート
+          </a>
+          <a href="/company/online_media" class="p-3 text-center">
+            提携オンラインメディア
+          </a>
+        </div>
+      </div>
+
+      <!-- 設定サイドバー -->
+      <div class="comSideBar2 col-6 p-0" id="minisidebar4" style="display: none;">
+        <div class="list-group" style="font-size: smaller;">
+          <a href="/company/info" class="p-3 text-center">
+            企業情報
+          </a>
+          <a href="/company/user_info" class="p-3 text-center">
+            ユーザー情報
+          </a>
+          <a href="/company/service_plan" class="p-3 text-center">
+            料金プラン
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

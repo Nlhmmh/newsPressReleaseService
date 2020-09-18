@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+  <title>センスプレスリリース</title>
+</head>
+
+<body>
+
+  <!-- ランキング画面のランキング一覧に表示する -->
+  <div th:fragment="ranking">
+    <div class="row">
+      <div class="col-6 p-0 my-2" th:each="prRanking, index:${prListRanking}" th:object="${prRanking}">
+        <div class="row h-100">
+          <div class="col-1" style="font-weight: bold;">
+            <p th:text="${index.count}" style="background-color: rgb(89, 89, 189); color: white; text-align: center;">
+            </p>
+          </div>
+          <div class="col-7 p-2">
+            <p style="font-size: small; line-height: 1.8;">
+              <a th:href="@{'/press_release_detail/' + *{id}}" th:text="*{prTitle}"></a>
+            </p>
+            <div class="my-pr-card">
+              <p th:text="*{prDateStringRanking}"></p>
+              <p><a href="/company_profile" style="font-weight: normal;" th:text="*{companyName}"></a></p>
+            </div>
+          </div>
+          <div class="col-3">
+            <a th:href="@{'/press_release_detail/' + *{id}}">
+              <img th:if="${prRanking.prImage == null}"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/800px-No_image_3x4.svg.png">
+              <img th:unless="${prRanking.prImage == null}" class="card-img-top" th:src="*{prImage}">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

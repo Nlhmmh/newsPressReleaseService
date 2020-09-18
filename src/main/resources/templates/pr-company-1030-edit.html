@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/themify-icons.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+  <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/headerstyle.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/jquery-2.2.4.min.js"></script>
+  <script src="/js/popper.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/stellar.js"></script>
+  <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/js/waypoints.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/jquery.form.js"></script>
+  <script src="/js/jquery.validate.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/theme.js"></script>
+
+  <style>
+    .my-company-nav {
+      background-color: lightgray;
+    }
+
+    .my-company-nav div {
+      width: 150px;
+    }
+
+    .my-company-nav a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .my-company-nav .active {
+      text-decoration: none;
+      color: blue;
+    }
+
+    .my-edit-btn a {
+      text-decoration: none;
+      color: white;
+      border: 1px solid;
+      background-color: gray;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    input:checked+.slider {
+      background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+  </style>
+
+  <script th:inline="javascript">
+    $(document).ready(function () {
+      $("#sideContent").click(function (event) {
+        reset_display();
+        var sideMenu = $("#sideMenu");
+        var sideContent = $("#sideContent");
+        var sideWrapper = $("#sidebar-wrapper");
+        sideWrapper.removeClass("col-6");
+        sideMenu.removeClass("col-2");
+        sideContent.removeClass("col-9");
+        sideMenu.addClass("col-1");
+        sideContent.addClass("col-11");
+        sideWrapper.addClass("col-12");
+      });
+
+      $('#updatePasswordForm').submit(
+        // Submitボタンを押下する時
+        function (event) {
+          var oldPassword = $('#oldPassword');
+          var newPassword = $('#newPassword');
+          var newPasswordRe = $('#newPasswordRe');
+          var oldPasswordMsg = $('#oldPasswordMsg');
+          var newPasswordMsg = $('#newPasswordMsg');
+          var newPasswordReMsg = $('#newPasswordReMsg');
+          var oldPasswordFailMsg = $('#oldPasswordFailMsg');
+          var newPasswordReFailMsg = $('#newPasswordReFailMsg');
+          var wrongMessage = $('#wrongMessage');
+
+          oldPasswordMsg.css("display", "none");
+          newPasswordMsg.css("display", "none");
+          newPasswordReMsg.css("display", "none");
+          oldPasswordFailMsg.css("display", "none");
+          newPasswordReFailMsg.css("display", "none");
+          wrongMessage.css("display", "none");
+
+          // パスワードチェック
+          if (newPassword.val() === '') {
+            event.preventDefault();
+            event.stopPropagation();
+            newPasswordMsg.css("display", "block");
+          } else if (!(newPassword.val().length >= 6 && newPassword.val().length <= 12)) {
+            event.preventDefault();
+            event.stopPropagation();
+            wrongMessage.css("display", "block");
+          };
+
+          // 再記入パスワードチェック
+          if (newPasswordRe.val() === '') {
+            event.preventDefault();
+            event.stopPropagation();
+            newPasswordReMsg.css("display", "block");
+          } else if (newPasswordRe.val() != newPassword.val()) {
+            event.preventDefault();
+            event.stopPropagation();
+            newPasswordReFailMsg.css("display", "block");
+          };
+
+          // 記入したメールのユーザーがあるかどうかを確認する。
+          $.ajax({
+            type: "GET",
+            url: "/company/user_edit/update_password?oldPassword=" + oldPassword.val() + "&newPassword=" + newPassword.val() + "&encryptedPassword=" + [[${ updatePasswordInfo.encryptedPassword }]] + "&userId=" + [[${ updatePasswordInfo.userId }]],
+            async: false,
+          })
+            .then(function (isPasswordCorrect) {
+
+              if (oldPassword.val() === '') {
+                event.preventDefault();
+                event.stopPropagation();
+                oldPasswordMsg.css("display", "block");
+              } else if (!isPasswordCorrect) {
+                event.preventDefault();
+                event.stopPropagation();
+                oldPasswordFailMsg.css("display", "block");
+              }
+
+            });
+        });
+    });
+
+    $(function () {
+      // 入力チェック定義
+      $("#userForm").validate({
+        errorElement: "div",
+        errorClass: "error",
+        rules: {
+          name1: {
+            required: true
+          },
+          name2: {
+            required: true
+          },
+          nameKatakana1: {
+            required: true
+          },
+          nameKatakana2: {
+            required: true
+          },
+          department: {
+            required: true
+          },
+          phone1: {
+            required: true,
+            maxlength: 4,
+            number: true
+          },
+          phone2: {
+            required: true,
+            maxlength: 4,
+            number: true
+          },
+          phone3: {
+            required: true,
+            maxlength: 4,
+            number: true
+          },
+          email: {
+            required: true
+          }
+        },
+        messages: {
+          name1: {
+            required: "入力してください。"
+          },
+          name2: {
+            required: "入力してください。"
+          },
+          nameKatakana1: {
+            required: "入力してください。"
+          },
+          nameKatakana2: {
+            required: "入力してください。"
+          },
+          department: {
+            required: "入力してください。"
+          },
+          phone1: {
+            required: "入力してください。",
+            maxlength: "最大４桁で入力してください。",
+            number: "数字だけ入力してください。"
+          },
+          phone2: {
+            required: "入力してください。",
+            maxlength: "最大４桁で入力してください。",
+            number: "数字だけ入力してください。"
+          },
+          phone3: {
+            required: "入力してください。",
+            maxlength: "最大４桁で入力してください。",
+            number: "数字だけ入力してください。"
+          },
+          email: {
+            required: "入力してください。"
+          }
+        },
+        submitHandler: function (form) {
+          form.submit();
+        }
+      });
+    });
+  </script>
+
+</head>
+
+<body>
+  <!--	共通ヘッダー -->
+  <div th:insert="pr-home-1019.html :: header"></div>
+    
+  <div class="row">
+
+    <!-- 共通左側メニュー -->
+    <div class="col-1 p-0" style="background-color: lightgrey; lightgrey; border: 1px solid;" id="sideMenu"
+      th:insert="pr-company-1043.html :: companySideMenu"></div>
+
+    <div class="col-11" id="sideContent">
+
+      <!-- 設定行 -->
+      <div class="row py-3">
+        <div class="col-10">
+          <h3 class="pl-5 pt-2">設定</h3>
+        </div>
+      </div>
+
+      <!-- サイトメニュー -->
+      <div class="row border pl-5 my-company-nav">
+        <div class="ml-3 py-3"><a href="/company/info">企業情報</a></div>
+        <div class="py-3"><a href="/company/user_info" class="active">ユーザー情報</a></div>
+        <div class="py-3"><a href="/company/service_plan">料金プラン</a></div>
+      </div>
+
+      <!-- パスワード編集ポップアップー -->
+      <div class="modal fade" id="mymodal">
+        <div class="modal-dialog" style="width: 400px;">
+          <div class="modal-content p-3" style="color: black; border-radius: 20px;">
+
+            <div class="my-2">
+              <h3>パスワードを変更</h3>
+            </div>
+
+            <!-- ポップアップクロス -->
+            <form id="updatePasswordForm" method="post"
+              th:action="'/company/user_edit?id=' + ${updatePasswordInfo.userId}" novalidate>
+
+              <!-- 現在のパスワード -->
+              <div class="form-group row">
+                <div class="col-10">
+                  <label class="font-weight-bold">現在のパスワード</label>
+                  <input type="password" class="form-control" id="oldPassword" name="oldPassword" required>
+                  <div class="error invalid-feedback" id="oldPasswordMsg" style="display: none;">
+                    入力してください！
+                  </div>
+                  <div class="error invalid-feedback" id="oldPasswordFailMsg" style="display: none;">
+                    現在のパスワードが違います！
+                  </div>
+                </div>
+              </div>
+
+              <!-- 新しいパスワード -->
+              <div class="form-group row">
+                <div class="col-10">
+                  <label class="font-weight-bold">新しいパスワード</label>
+                  <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                  <div class="error invalid-feedback" id="newPasswordMsg" style="display: none;">
+                    入力してください！
+                  </div>
+                  <div class="error invalid-feedback" id="wrongMessage" style="display: none;">
+                    英数半角6文字以上12文字以下で入力してください！
+                  </div>
+                </div>
+              </div>
+
+              <!-- 新しいパスワード確認 -->
+              <div class="form-group row">
+                <div class="col-10">
+                  <label class="font-weight-bold">新しいパスワード確認</label>
+                  <input type="password" class="form-control" id="newPasswordRe" name="newPasswordRe" required>
+                  <div class="error invalid-feedback" id="newPasswordReMsg" style="display: none;">
+                    入力してください！
+                  </div>
+                  <div class="error invalid-feedback" id="newPasswordReFailMsg" style="display: none;">
+                    上記パスワードに違っています！
+                  </div>
+                </div>
+              </div>
+
+              <!-- ボタン -->
+              <div class="d-flex justify-content-end mr-5">
+                <div class="mr-3">
+                  <button style="font-size: small;" id="cancelBtnPop" class="btn p-3 px-4" data-toggle="modal"
+                    data-target="#mymodal">キャンセル</button>
+                </div>
+                <div>
+                  <button style="font-size: small;" id="savePop" class="btn btn-primary p-3 px-4"
+                    type="submit">保存</button>
+                </div>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- フォーム -->
+      <div class="row pl-5 my-3">
+
+        <div class="col-6">
+
+          <form id="userForm" method="post" th:action="@{/company/user_edit/confirm}" th:object="${userInfo}">
+
+            <input type="text" id="compUserId" name="compUserId" th:field="*{id}" hidden>
+
+            <!-- 名前（漢字） -->
+            <div class="form-group row">
+              <div class="col-3">
+                <label class="font-weight-bold">姓</label>
+                <input type="text" class="form-control" id="name1" name="name1" th:field="*{name1}" required>
+                <div class="error invalid-feedback" for="name1">
+                  入力してください！
+                </div>
+              </div>
+              <div>
+                &nbsp;
+              </div>
+              <div class="col-3">
+                <label class="font-weight-bold">名</label>
+                <input type="text" class="form-control" id="name2" name="name2" th:field="*{name2}" required>
+                <div class="error invalid-feedback" for="name2">
+                  入力してください！
+                </div>
+              </div>
+            </div>
+
+            <!-- 名前（カタカナ） -->
+            <div class="form-group row">
+              <div class="col-3">
+                <label class="font-weight-bold">セイ</label>
+                <input type="text" class="form-control" id="nameKatakana1" name="nameKatakana1"
+                  th:field="*{nameKatakana1}" required>
+                <div class="error invalid-feedback" for="nameKatakana1">
+                  入力してください！
+                </div>
+              </div>
+              <div>
+                &nbsp;
+              </div>
+              <div class="col-3">
+                <label class="font-weight-bold">メイ</label>
+                <input type="text" class="form-control" id="nameKatakana2" name="nameKatakana2"
+                  th:field="*{nameKatakana2}" required>
+                <div class="error invalid-feedback" for="nameKatakana2">
+                  入力してください！
+                </div>
+              </div>
+            </div>
+
+            <!-- 所属部署 -->
+            <div class="form-group row">
+              <div class="col-3">
+                <label class="font-weight-bold">所属部署</label>
+                <input type="text" class="form-control" id="department" name="department" th:field="*{department}"
+                  required>
+                <div class="error invalid-feedback" for="department">
+                  入力してください！
+                </div>
+              </div>
+            </div>
+
+            <!-- 電話番号 -->
+            <div class="form-group">
+              <label class="font-weight-bold">電話番号</label><br>
+              <div class="row m-0">
+                <div>
+                  <input type="text" class="form-control" style="width: 100px;" id="phone1" name="phone1"
+                    th:field="*{phone1}" required>
+                  <div class="error invalid-feedback" for="phone1">
+                    入力してください！
+                  </div>
+                </div>
+                &nbsp; - &nbsp;
+                <div>
+                  <input type="text" class="form-control" style="width: 100px;" id="phone2" name="phone2"
+                    th:field="*{phone2}" required>
+                  <div class="error invalid-feedback" for="phone2">
+                    入力してください！
+                  </div>
+                </div>
+                &nbsp; - &nbsp;
+                <div>
+                  <input type="text" class="form-control" style="width: 100px;" id="phone3" name="phone3"
+                    th:field="*{phone3}" required>
+                  <div class="error invalid-feedback" for="phone3">
+                    入力してください！
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAX -->
+            <div class="form-group">
+              <label class="font-weight-bold">FAX</label><br>
+              <div class="row m-0">
+                <div>
+                  <input type="text" class="form-control" style="width: 100px;" id="fax1" name="fax1"
+                    th:field="*{fax1}">
+                  <div class="error invalid-feedback" for="fax1">
+                    入力してください！
+                  </div>
+                </div>
+                &nbsp; - &nbsp;
+                <div>
+                  <input type="text" class="form-control" style="width: 100px;" id="fax2" name="fax2"
+                    th:field="*{fax2}">
+                  <div class="error invalid-feedback" for="fax2">
+                    入力してください！
+                  </div>
+                </div>
+                &nbsp; - &nbsp;
+                <div>
+                  <input type="text" class="form-control" style="width: 100px;" id="fax3" name="fax3"
+                    th:field="*{fax3}">
+                  <div class="error invalid-feedback" for="fax3">
+                    入力してください！
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- メールアドレス -->
+            <div class="form-group row">
+              <div class="col-10">
+                <label class="font-weight-bold">メールアドレス</label>
+                <input type="text" class="form-control" id="email" name="email" th:field="*{email}" required>
+                <div class="error invalid-feedback" for="email">
+                  入力してください！
+                </div>
+              </div>
+            </div>
+
+            <!-- パスワード -->
+            <div class="form-group row">
+              <div class="col-10">
+                <label class="font-weight-bold">パスワード</label>
+                <div class="row p-2 ml-1" style="background-color: lightgray; border-radius: 5px;">
+                  <div class="col-9 p-1">
+                    <span id="password" name="password">******</span>
+                  </div>
+                  <div class="col-3 d-flex justify-content-end my-edit-btn">
+                    <a href="#" id="passwordEdit" class="btn" data-toggle="modal" data-target="#mymodal">編集</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- リリース配信権限 -->
+            <div class="form-group">
+              <label class="font-weight-bold">リリース配信権限</label>
+              <div>
+                <label class="switch">
+                  <<input type="checkbox" id="releaseDistributionAuthority" name="releaseDistributionAuthority"
+                    th:field="*{releaseDistributionAuthority}" th:checked="*{releaseDistributionAuthority}">
+                    <span class="slider"></span>
+                </label>
+                <div class="error invalid-feedback" for="releaseDistributionAuthority">
+                  入力してください！
+                </div>
+              </div>
+            </div>
+
+            <!-- ボタン -->
+            <div class="d-flex justify-content-end mr-5">
+              <div class="mr-3">
+                <input type="button" style="font-size: small;" id="cancelBtn" class="btn p-3 px-4" value="キャンセル"
+                  onclick="location.href='/company/user_info'">
+              </div>
+              <div>
+                <button style="font-size: small;" id="confirm" class="btn btn-primary p-3 px-4"
+                  type="submit">確認画面</button>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+</head>
+<body>
+	<div th:fragment="header">
+	    <div  class="media-header-a">
+	        <!-- ロゴ行 -->
+		    <div class="row col-12">
+			    <div class="col-1 ml-5 d-flex justify-content-end">
+				    <nav class="navbar navbar-expand-sm">
+					    <a class="navbar-brand" href="/"> 
+					       <img th:src="@{/img/favicon.png}" alt="No Image">
+					    </a>
+				    </nav>
+			    </div>
+			    <div class="col-7 d-flex justify-content-start pt-2">
+				    <div class="navbar-header">
+					    <nav class="navbar navbar-expand-sm">
+						     <a class="nav-text" href="/"> ← TOPへ戻る </a>
+					    </nav>
+				    </div>
+			    </div>
+			    <div class="col-3 d-flex justify-content-end pt-2">
+				    <nav class="navbar navbar-expand-sm">
+					    <span sec:authorize="isAuthenticated()" sec:authentication="principal.name"></span>
+					    <span class="nav-text small">様</span>
+					    <div class="dropdown">
+						    <a class="dropdown-toggle small" data-toggle="dropdown">ログイン中
+						       <b class="caret"></b>
+						    </a>
+						    <ul class="dropdown-menu dropdown-menu-right">
+							    <li><a class="dropdown-item" href="/media/recv_release">プレスリリース受信設定</a></li>
+							    <li class="dropdown-divider"></li>
+							    <li><a class="dropdown-item" href="/media/recv_comp">企業受信設定</a></li>
+							    <li class="dropdown-divider"></li>
+							    <li><a class="dropdown-item" href="/company/account_conf">アカウント設定</a></li>
+							    <li class="dropdown-divider"></li>
+							    <li><a class="dropdown-item" href="/media/browsing_history">閲覧履歴</a></li>
+							    <li class="dropdown-divider"></li>
+							    <li><a class="dropdown-item" href="/media/browsing_history">SENSE-PRへ戻る</a></li>
+							    <li class="dropdown-divider"></li>
+							    <li>
+								   <form action="/logout" method="post">
+									    <input class="dropdown-item" type="submit" value="ログアウト" />
+								   </form>
+							    </li>
+						    </ul>
+					   </div>
+				  </nav>
+			 </div>
+		</div>
+	</div>
+	<!-- navbar行 -->
+	<div class="media-header-b">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4"></div>
+				<div class="col-sm-4">
+					<nav class="navbar">
+						<a href="/media/latest_press_release" role="button">最新</a> 
+						<a href="#" role="button">検索</a> 
+						<a href="#" role="button">気になる</a>
+					</nav>
+				</div>
+				<div class="col-sm-4"></div>
+			</div>
+		</div>
+	</div>
+ </div>
+</body>
+</html>

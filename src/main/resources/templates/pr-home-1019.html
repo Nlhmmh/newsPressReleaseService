@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+</head>
+<body>
+	<div th:fragment="header" class="company-header">
+		<div class="row col-12">
+			<div class="header-btn col-2 nav justify-content-start">
+				<nav class="navbar navbar-expand-sm">
+				    <a class="nav-link" href="/" role="button">PR サイトへ戻る</a>
+				</nav>
+			</div>
+			<div class="header-btn col-2 nav justify-content-end">				
+					<nav class="navbar navbar-expand-sm">
+						<a class="nav-link" href="/regist/media" role="button">メディアリスト新規登録</a>
+					</nav>
+			</div>
+			<div class="header-btn col-5 nav justify-content-start">				
+					<nav class="navbar navbar-expand-sm">
+						<a class="nav-link" href="/company/release_edit" role="button">プレスリリース新規登録</a>
+					</nav>
+			</div>
+			<div class="header-btn col-1 nav justify-content-end pt-3">				
+			    <a class="nav-link" href="/company-manual.pdf" target="_blank">
+				       <i class="fas fa-book fa-stack-2x"></i>
+			    </a>
+			</div>												
+			<div class="col-2 nav justify-content-end">
+				<nav class="navbar navbar-expand-sm">				    
+				    <img th:if="${#authentication.principal.company.logoPath}"
+			             th:src="${#authentication.principal.company.logoPath}" width="50" height="40"/>			    							
+					<div class="dropdown">
+						<a sec:authorize="isAuthenticated()" class="nav-link dropdown-toggle small" data-toggle="dropdown">					  
+						          株式会社<span sec:authentication="principal.company.corporateName"></span><br>
+						          企業ID：<span sec:authentication="principal.companyId"></span>					  
+						  <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-right">
+						   <li sec:authorize="isAuthenticated()">
+							  <a class="dropdown-header">株式会社<span sec:authentication="principal.company.corporateName"></span></a>
+							  <a class="dropdown-item small">企業ID：［<span sec:authentication="principal.companyId"></span>］</a>
+							  <a class="dropdown-item small"><span sec:authentication="principal.name"></span>様</a>
+						   </li>
+						   <li class="dropdown-divider"></li>
+						   <li><a class="dropdown-item" href="/company/account_conf">アカウント設定</a></li>
+						   <li class="dropdown-divider"></li>
+						   <li><a class="dropdown-item" href="/company-manual.pdf" target="_blank">マニュアル</a></li>
+						   <li class="dropdown-divider"></li>
+						   <li>
+							   <form action="/logout" method="post">
+									<input class="dropdown-item" type="submit" value="ログアウト" />
+							   </form>
+						   </li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

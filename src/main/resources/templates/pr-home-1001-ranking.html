@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+  <title>センスプレスリリース</title>
+</head>
+
+<body>
+
+  <!-- ホームページのランキングに表示する -->
+  <div th:fragment="ranking">
+    <div class="row">
+      <div class="col-2 p-0 mx-2" th:each="prRanking:${prListRanking}" th:object="${prRanking}">
+        <div class="card h-100">
+          <a th:href="@{'/press_release_detail/' + *{id}}">
+            <img th:if="${prRanking.prImage == null}" class="card-img-top"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/800px-No_image_3x4.svg.png">
+            <img th:unless="${prRanking.prImage == null}" class="card-img-top" th:src="*{prImage}">
+          </a>
+          <div class="p-2">
+            <p style="font-size: small; line-height: 1.8;">
+              <a th:href="@{'/press_release_detail/' + *{id}}" th:text="*{prTitle}"></a>
+            </p>
+            <div class="my-pr-card">
+              <p th:text="*{prDateStringRanking}"></p>
+              <p><a href="/company_profile" style="font-weight: normal;" th:text="*{companyName}"></a></p>
+              <p>PV<span th:text="*{pv}"></span> / UU<span th:text="*{uu}"></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

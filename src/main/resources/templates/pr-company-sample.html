@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/themify-icons.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+  <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/jquery-2.2.4.min.js"></script>
+  <script src="/js/popper.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/stellar.js"></script>
+  <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/js/waypoints.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/jquery.form.js"></script>
+  <script src="/js/jquery.validate.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/theme.js"></script>
+
+  <style>
+    .my-company-nav {
+      background-color: lightgray;
+    }
+
+    .my-company-nav div {
+      width: 150px;
+    }
+
+    .my-company-nav a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .my-company-nav .active {
+      text-decoration: none;
+      color: blue;
+    }
+  </style>
+
+  <script type="text/javascript">
+    $("#sideContent").click(function () {
+      reset_display();
+      var sideMenu = document.getElementById("sideMenu");
+      var sideContent = document.getElementById("sideContent");
+      var sideWrapper = document.getElementById("sidebar-wrapper");
+      sideWrapper.classList.remove("col-6");
+      sideMenu.classList.remove("col-2");
+      sideContent.classList.remove("col-9");
+      sideMenu.classList.add("col-1");
+      sideContent.classList.add("col-11");
+      sideWrapper.classList.add("col-12");
+    });
+  </script>
+</head>
+
+<body>
+  <div class="row">
+
+    <!-- 共通左側メニュー -->
+    <div class="col-1 p-0" style="background-color: lightgrey; lightgrey; border: 1px solid;" id="sideMenu"
+      th:insert="pr-company-1043.html :: companySideMenu"></div>
+
+    <div class="col-11 p-3" id="sideContent">
+      <!-- 内容をこの中に入れってください。 -->
+    </div>
+
+  </div>
+</body>
+
+</html>

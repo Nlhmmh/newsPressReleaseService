@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<head>
+	<meta charset="UTF-8">
+	<title>企業ダッシュボード</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/themify-icons.css">
+	<link rel="stylesheet" href="/css/flaticon.css">
+	<link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="/vendors/animate-css/animate.css">
+	<link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+	<!-- main css -->
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/responsive.css">
+	<link rel="stylesheet" href="/css/headerstyle.css">
+	<!-- js files(optional) -->
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+	<script src="/js/jquery.ajaxchimp.min.js"></script>
+	<script src="/js/jquery.form.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/theme.js"></script>
+	</head>
+	
+	<body>
+	<div th:insert="pr-home-1019.html :: header"></div>
+	
+		<h2>企業ダッシュボード</h2><br>
+		
+		<div th:text="${12345}"> </div><br>
+		
+		<div sec:authorize="hasRole('ADMIN')">
+			 admin visible
+		</div><br>
+		
+		<div>Welcome! <span sec:authentication="principal.name"></span></div><br>
+		<div>userId: <span sec:authentication="principal.userId"></span></div><br>
+		<div>companyId: <span sec:authentication="principal.companyId"></span></div><br>
+		
+		<div>corporate_name: <span sec:authentication="principal.company.corporateName"></span></div><br>
+		<div>comp logo_path: <span sec:authentication="principal.company.logoPath"></span></div><br>
+		
+		<img th:if="${#authentication.principal.company.logoPath}"
+			 th:src="${#authentication.principal.company.logoPath}" />
+		
+		<br><br><br><br>
+		<form action="/logout" method="post">
+		    <input type="submit" value="logout"/>
+		</form>
+		
+	</body>
+</html>

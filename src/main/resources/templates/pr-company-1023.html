@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/themify-icons.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+  <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/headerstyle.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/jquery-2.2.4.min.js"></script>
+  <script src="/js/popper.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/stellar.js"></script>
+  <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/js/waypoints.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/jquery.form.js"></script>
+  <script src="/js/jquery.validate.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/vendors/chart/Chart.min.js"></script>
+
+  <style>
+    .my-company-nav {
+      border-bottom: 1px solid;
+    }
+
+    .my-company-nav .active {
+      border-bottom: 2px solid;
+      color: blue;
+    }
+
+    .my-company-nav a {
+      text-decoration: none;
+      color: black;
+    }
+  </style>
+
+  <script th:inline="javascript">
+    $(document).ready(function () {
+      $("#sideContent").click(function (event) {
+        reset_display();
+        var sideMenu = $("#sideMenu");
+        var sideContent = $("#sideContent");
+        var sideWrapper = $("#sidebar-wrapper");
+        sideWrapper.removeClass("col-6");
+        sideMenu.removeClass("col-2");
+        sideContent.removeClass("col-9");
+        sideMenu.addClass("col-1");
+        sideContent.addClass("col-11");
+        sideWrapper.addClass("col-12");
+      });
+
+      $("#sel1").change(function () {
+        var startPageCountVar = [[${ startPageCount }]];
+        window.location.href = "/company/report_list/next?startPageCount=" + (startPageCountVar) + "&pageCount=" + $("#sel1").find(":selected").text();
+      });
+    });
+
+    function nextPage() {
+      var overallCountVar = [[${ overallCount }]];
+      var startPageCountVar = [[${ startPageCount }]];
+      var pageCountVar = [[${ pageCount }]];
+      if (overallCountVar > (startPageCountVar + pageCountVar)) {
+        window.location.href = "/company/report_list/next?startPageCount=" + (startPageCountVar + 1) + "&pageCount=" + $("#sel1").find(":selected").text();
+      }
+    }
+
+    function previousPage() {
+      var startPageCountVar = [[${ startPageCount }]];
+      if (startPageCountVar > 0) {
+        window.location.href = "/company/report_list/next?startPageCount=" + (startPageCountVar - 1) + "&pageCount=" + $("#sel1").find(":selected").text();
+      }
+    }
+
+    function graphDay() {
+      $("#graph").load("/company/report_list/graph?graphMode=day");
+    }
+
+    function graphWeek() {
+      $("#graph").load("/company/report_list/graph?graphMode=week");
+    }
+
+    function graphMonth() {
+      $("#graph").load("/company/report_list/graph?graphMode=month");
+    }
+  </script>
+
+</head>
+
+<body>
+  <div class="row">
+
+    <!--	共通ヘッダー -->
+    <!-- <div th:insert="pr-home-1019.html :: header"></div> -->
+
+    <!-- 共通左側メニュー -->
+    <!-- <div class="col-1 p-0" id="sideMenu" th:insert="pr-company-1043.html :: companySideMenu"></div> -->
+
+    <div class="col-11 pl-5" id="sideContent">
+
+      <!-- 分析データ -->
+      <div class="row py-3" style="border-bottom: 1px solid;">
+        <div class="col-10">
+          <h3 class="pt-2">分析データ</h3>
+        </div>
+      </div>
+
+      <!-- サイトメニュー -->
+      <div class="row my-company-nav">
+        <div class="mx-3 py-3 active"><a href="/company/info">レポート</a></div>
+        <div class="mx-3 ml-5 py-3"><a href="/company/user_info">提携オンラインメディア</a></div>
+      </div>
+
+      <div class="d-flex justify-content-end my-3">
+        <div class="mr-1">
+          <button class="btn border-dark" onclick="graphDay()">日</button>
+        </div>
+        <div class="mr-1">
+          <button class="btn border-dark" onclick="graphWeek()">週</button>
+        </div>
+        <div>
+          <button class="btn border-dark" onclick="graphMonth()">月</button>
+        </div>
+      </div>
+
+      <!-- グラフ -->
+      <div class="mb-5" id="graph" th:insert="pr-company-1023-graph.html :: graph"></div>
+
+      <!-- 分析データ表示 -->
+      <div class="row my-5" th:object="${reportOverallData}">
+        <div class="border p-3 col-4">
+          <h1 th:text="${#numbers.formatInteger(reportOverallData.pv_overall, 2, 'COMMA')}">8500</h1>
+          <p style="line-height: 1px; font-size: x-small;">ページビュー</p>
+        </div>
+        <div class="border p-3 col-4">
+          <h1 th:text="${#numbers.formatInteger(reportOverallData.uu_overall, 2, 'COMMA')}">8400</h1>
+          <p style="line-height: 1px; font-size: x-small;">訪問者数(UU)</p>
+        </div>
+        <div class="border p-3 col-4">
+          <h1 th:text="${#numbers.formatInteger(reportOverallData.reprint_sites_overall, 2, 'COMMA')}">0</h1>
+          <p style="line-height: 1px; font-size: x-small;">転載サイト</p>
+        </div>
+      </div>
+
+      <!-- レポート一覧 -->
+      <div class="my-5">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">配信日</th>
+              <th scope="col">タイトル</th>
+              <th scope="col">ページビュー</th>
+              <th scope="col">訪問者(UU)</th>
+              <th scope="col">転載サイト</th>
+              <th scope="col">デバイス別アクセス</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-bottom" th:each="reportData:${reportDataList}" th:object="${reportData}">
+              <td>
+                <span th:text="*{pr_published_date_string1}">yyyy年MM月dd日</span><br>
+                <span th:text="*{pr_published_date_string2}">hh時MM分</span>
+              </td>
+              <td>
+                <a th:href="'/press_release_detail?press_release_id='+ ${reportData.pr_ID} + '&business_category_id=' + ${compId}"
+                  th:text="*{title}">レスリリースタイトル</a>
+              </td>
+              <td>
+                <h3 th:text="*{pv}">500</h3>
+              </td>
+              <td>
+                <h3 th:text="*{uu}">400</h3>
+              </td>
+              <td>
+                <h3 th:text="*{reprint_sites}">7</h3>
+              </td>
+              <td>
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fas fa-desktop pr-2"></i>
+                  </div>
+                  <div class="col-1">
+                    <span th:text="*{access_pc_per}">69.09</span>%
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fas fa-mobile-alt pr-2"></i>
+                  </div>
+                  <div class="col-1">
+                    <span th:text="*{access_phone_per}">27.27</span>%
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-1">
+                    <i class="fas fa-tablet-alt pr-2"></i>
+                  </div>
+                  <div class="col-1">
+                    <span th:text="*{access_tablet_per}">3.64</span>%
+                  </div>
+                </div>
+              </td>
+              <td>
+                <a style="text-decoration: none; color: black;"
+                  th:href="'/company/report_detail?press_release_id=' + *{pr_ID}">
+                  <input type="button" style="border: 1px solid; font-size: small;" class="btn p-3" value="詳細">
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="row">
+
+          <div class="col-10">
+            <label for="sel1">表示件数</label>
+            <select class="p-2 ml-2 font-weight-bold"
+              style="width: 70px; border: 1px solid; background-color: whitesmoke; border-radius: 10px;" id="sel1">
+              <option value="10" th:selected="${pageCount} == 10">10</option>
+              <option value="50" th:selected="${pageCount} == 50">50</option>
+              <option value="100" th:selected="${pageCount} == 100">100</option>
+            </select>
+          </div>
+
+          <div class="col-2 pl-5">
+            <span id="startPageCount" th:text="${startPageCount} * ${pageCount} + 1">1</span>-
+            <span th:text="${endPageCount}">9</span>/
+            <span th:text="${overallCount}">9</span>件
+            <button class="btn border-dark" onclick="previousPage()"> &lt; </button>
+            <button class="btn border-dark" onclick="nextPage()"> &gt;</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</body>
+
+</html>

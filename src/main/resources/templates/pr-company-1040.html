@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- shu -->
+
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" href="img/favicon.png" type="image/png">
+<title>提携オンラインメディア</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/themify-icons.css">
+<link rel="stylesheet" href="/css/flaticon.css">
+<link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/vendors/animate-css/animate.css">
+<link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+<!-- main CSS -->
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<link rel="stylesheet" href="/css/headerstyle.css">
+<style type="text/css">
+.modal.right.fade .modal-dialog {
+	right: 0px;
+	-webkit-transition: opacity 0.3s linear, right 3s ease-out;
+	-moz-transition: opacity 0.3s linear, right 3s ease-out;
+	-o-transition: opacity 0.3s linear, right 3s ease-out;
+	transition: opacity 0.3s linear, right 3s ease-out;
+}
+
+.modal.right.fade.in .modal-dialog {
+	right: 0;
+}
+</style>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/stellar.js"></script>
+<script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.ajaxchimp.min.js"></script>
+<script src="/js/waypoints.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/contact.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/theme.js"></script>
+</head>
+
+<body>
+	<!-- 企業共通フッダ -->
+	<div th:insert="/pr-home-1019.html :: header"></div>
+
+	<!-- 左側メニュー -->
+	<!--<div th:insert="/pr-home-1002.html :: header"></div>  -->
+
+	<div class="container">
+		<h2>分析データ</h2>
+		<p>提携オンラインメディアに転載されたプレスリリースのURLを報告します。</p>
+		<p>右端のマークをクリックすると該当プレスリリースが転載されたURLが表示されます。</p>
+		<p>※配信したリリースのタイトルがそのまま記事に利用された場合、提携オンラインメディア以外の記事がピックアップされる場合があります。</p>
+		<p>転載されるURLの一部は、対象サイトの仕様により表示されないことがございます。</p>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>配信日</th>
+					<th>タイトル</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="pr : ${selectByComIdPr}" th:object="${pr}">
+					<td
+						th:text="*{#dates.format(createDatetime,'yyyy-MM-dd HH:mm:ss')}"></td>
+					<td th:text="*{releaseTitle}"></td>
+					<td><a th:href="@{'/comp/online_media_dtl/' + *{id}}"
+						class="btn btn-info">詳細</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+<script>
+	
+</script>
+</html>

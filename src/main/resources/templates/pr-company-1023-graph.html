@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+</head>
+
+<body>
+  <div th:fragment="graph">
+    <canvas id="myChart" width="300" height="100"></canvas>
+
+    <script th:inline="javascript">
+      // グラフ
+      var ctx = document.getElementById('myChart');
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [[${ dateList }]],
+          datasets: [
+            {
+              label: 'pv',
+              data: [[${ pvList }]],
+              lineTension: 0,
+              borderWidth: 1,
+              pointBackgroundColor: 'rgb(47,65,86)',
+              backgroundColor: 'rgb(235,244,250,0.5)',
+              borderColor: 'rgb(47,65,86)',
+              showLine: true,
+            },
+            {
+              label: 'uu',
+              data: [[${ uuList }]],
+              lineTension: 0,
+              borderWidth: 1,
+              pointBackgroundColor: 'rgb(154,202,230)',
+              backgroundColor: 'rgb(235,244,180,0.5)',
+              borderColor: 'rgb(100,65,100)',
+              showLine: true,
+            }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    </script>
+  </div>
+</body>
+
+</html>

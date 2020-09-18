@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Myint -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/themify-icons.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+  <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/jquery-2.2.4.min.js"></script>
+  <script src="/js/popper.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/stellar.js"></script>
+  <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/js/waypoints.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/jquery.form.js"></script>
+  <script src="/js/jquery.validate.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/theme.js"></script>
+</head>
+
+<body>
+  <div th:fragment="mediaSettingMenu">
+
+    <style>
+      .my-media-nav a {
+        text-decoration: none;
+        color: black;
+      }
+
+      .my-media-nav div {
+        border-top: 1px solid;
+        border-right: 1px solid;
+        border-left: 1px solid;
+      }
+
+      .my-media-nav i {
+        border: 1px solid;
+        border-radius: 25px;
+        padding: 10px;
+        font-size: xx-large;
+      }
+
+      .my-media-nav i:hover {
+        color: blue;
+      }
+    </style>
+
+    <div class="my-media-nav p-3 text-center">
+      <div class="p-2">
+        <a href="/media/recv_release">
+          <i class="far fa-envelope"></i><br>
+          プレスリリース<br>
+          受信設定
+        </a>
+      </div>
+      <div class="p-2">
+        <a href="/media/recv_comp">
+          <i class="far fa-building"></i><br>
+          企業受信設定
+        </a>
+      </div>
+      <div class="p-2" style="border-bottom: 1px solid;">
+        <a href="/media/account_conf">
+          <i class="fas fa-cog"></i><br>
+          アカウント設定
+        </a>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>

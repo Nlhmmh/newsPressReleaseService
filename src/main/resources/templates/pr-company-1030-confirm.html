@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/themify-icons.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+  <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+    rel="stylesheet">
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/headerstyle.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/jquery-2.2.4.min.js"></script>
+  <script src="/js/popper.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/stellar.js"></script>
+  <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/js/waypoints.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/jquery.form.js"></script>
+  <script src="/js/jquery.validate.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+  <style>
+    .my-company-nav {
+      background-color: lightgray;
+    }
+
+    .my-company-nav div {
+      width: 150px;
+    }
+
+    .my-company-nav a {
+      text-decoration: none;
+      color: black;
+    }
+
+    .my-company-nav .active {
+      text-decoration: none;
+      color: blue;
+    }
+  </style>
+
+  <script type="text/javascript" th:inline="javascript">
+    $(document).ready(function () {
+      $("#sideContent").click(function (event) {
+        reset_display();
+        var sideMenu = $("#sideMenu");
+        var sideContent = $("#sideContent");
+        var sideWrapper = $("#sidebar-wrapper");
+        sideWrapper.removeClass("col-6");
+        sideMenu.removeClass("col-2");
+        sideContent.removeClass("col-9");
+        sideMenu.addClass("col-1");
+        sideContent.addClass("col-11");
+        sideWrapper.addClass("col-12");
+      });
+
+      var message = /*[[${userInfo}]]*/ 'default';
+      // 保存するボタン押下
+      $("#save").click(function () {
+        var isSending = false;
+        if (!isSending) {
+          isSending = true;
+          $.ajax({
+            url: "/company/user_register/success",
+            type: "post",
+            data: message,
+            success: function (obj) {
+              isSending = false;
+              window.location.href = '/company/user_info';
+            }
+          });
+        }
+      });
+    });
+  </script>
+
+</head>
+
+<body>
+  <!--	共通ヘッダー -->
+  <div th:insert="pr-home-1019.html :: header"></div>
+    
+  <div class="row">
+
+    <!-- 共通左側メニュー -->
+    <div class="col-1 p-0" style="background-color: lightgrey; border: 1px solid;" id="sideMenu"
+      th:insert="pr-company-1043.html :: companySideMenu"></div>
+
+    <div class="col-11" id="sideContent">
+
+      <!-- 設定行 -->
+      <div class="row py-3">
+        <div class="col-10">
+          <h3 class="pl-5 pt-2">設定</h3>
+        </div>
+        <div class="col-2 d-flex justify-content-end pr-5">
+          <button class="btn btn-primary px-5">編集</button>
+        </div>
+      </div>
+
+      <!-- サイトメニュー -->
+      <div class="row border pl-5 my-company-nav">
+        <div class="ml-3 py-3"><a href="#">企業情報</a></div>
+        <div class="py-3"><a href="#" class="active">ユーザー情報</a></div>
+        <div class="py-3"><a href="#">料金プラン</a></div>
+      </div>
+
+      <!-- フォーム -->
+      <div class="row pl-5 my-3">
+
+        <div class="col-6">
+
+          <div th:object="${userInfo}">
+
+            <!-- 名前（漢字） -->
+            <div class="row my-4">
+              <div class="col-3 m-0">
+                <label class="font-weight-bold p-0">姓</label>
+                <p th:text="*{name1}"></p>
+              </div>
+              <div class="col-3 m-0">
+                <label class="font-weight-bold">名</label>
+                <p th:text="*{name2}"></p>
+              </div>
+            </div>
+
+            <!-- 名前（カタカナ） -->
+            <div class="row my-4">
+              <div class="col-3">
+                <label class="font-weight-bold p-0">セイ</label>
+                <p th:text="*{nameKatakana1}"></p>
+              </div>
+              <div class="col-3 m-0">
+                <label class="font-weight-bold">メイ</label>
+                <p th:text="*{nameKatakana2}"></p>
+              </div>
+            </div>
+
+            <!-- 所属部署 -->
+            <div class="my-4">
+              <label class="font-weight-bold p-0">所属部署</label><br>
+              <p th:text="*{department}"></p>
+            </div>
+
+            <!-- 電話番号 -->
+            <div class="my-4">
+              <label class="font-weight-bold p-0">電話番号</label><br>
+              <span th:text="*{phone1}"></span>&nbsp; - &nbsp;
+              <span th:text="*{phone2}"></span>&nbsp; - &nbsp;
+              <span th:text="*{phone3}"></span>
+            </div>
+
+            <!-- FAX -->
+            <div class="my-4">
+              <label class="font-weight-bold p-0">FAX</label><br>
+              <span th:text="*{fax1}"></span>&nbsp; - &nbsp;
+              <span th:text="*{fax2}"></span>&nbsp; - &nbsp;
+              <span th:text="*{fax3}"></span>
+            </div>
+
+            <!-- メールアドレス -->
+            <div class="my-4">
+              <label class="font-weight-bold p-0">メールアドレス</label><br>
+              <p th:text="*{email}"></p>
+            </div>
+
+            <!-- パスワード -->
+            <div class="my-4">
+              <label class="font-weight-bold p-0">パスワード</label><br>
+              <p>******</p>
+            </div>
+
+            <!-- リリース配信権限 -->
+            <div class="my-4">
+              <label class="font-weight-bold p-0">リリース配信権限</label><br>
+              <p th:if="*{releaseDistributionAuthority}">あり</p>
+              <p th:unless="*{releaseDistributionAuthority}">無し</p>
+            </div>
+
+            <!-- ボタン -->
+            <div class="d-flex justify-content-end mr-5">
+              <div class="mr-3">
+                <button style="font-size: small;" id="cancelBtn" class="btn p-3 px-4"
+                  onclick="window.history.go(-1);">キャンセル</button>
+              </div>
+              <div>
+                <button style="font-size: small;" id="save" class="btn btn-primary p-3 px-4" type="submit">保存</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/themify-icons.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+  <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/mystyle.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/jquery-2.2.4.min.js"></script>
+  <script src="/js/popper.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/stellar.js"></script>
+  <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/js/waypoints.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/jquery.form.js"></script>
+  <script src="/js/jquery.validate.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/theme.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      // フォームバリデーションする。
+      $("#confirmForm").submit(function (event) {
+        var termsOfServiceChkBox = $("#termsOfServiceChkBox");
+        var termsOfServiceChkBoxMsg = $("#termsOfServiceChkBoxMsg");
+
+        // 利用規約チェック
+        if (!termsOfServiceChkBox.is(':checked')) {
+          event.preventDefault();
+          event.stopPropagation();
+          termsOfServiceChkBoxMsg.css("display", "block");
+        }
+      });
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <!-- 共通フッダ -->
+  <div th:insert="pr-home-1002.html :: header"></div>
+
+  <!-- ボディ -->
+  <div class="container my-5 p-3">
+
+    <!-- 初期表示 -->
+    <div>
+      <h3 class="mb-3">メディアユーザーとして新規登録する</h3>
+      <p style="font-size: small;">
+        内容をご確認頂きまして、「登録する」ボタンをクリックください。<br>
+        内容を修正する場合は、「入力内容を修正する」ボタンをクリックください。<br>
+        日本国内の新聞社、通信社、出版社、テレビ局、ラジオ局、オンラインメディアなどで、記者、編集者、<br>
+        番組制作者などの業務に従事されている方が対象です。ご登録後、メディアユーザーの審査を行わせて頂きます。
+      </p>
+    </div>
+
+    <div class="my-3" style="font-size: small;">
+      <span>必須項目を入力</span> &nbsp;>&nbsp;
+      <span style="font-weight: bolder;">入力内容を確認</span> &nbsp;>&nbsp;
+      <span>完了</span>
+    </div>
+
+    <div>
+      <span><strong>メディアユーザー情報</strong></span>
+    </div>
+
+    <!-- 登録確認 -->
+    <div class="my-3">
+
+      <!-- メールアドレス -->
+      <div class="row my-0 border">
+        <div class="col-4 border-right p-3 bg-light row m-0">
+          <div class="col-8">
+            <label class="font-weight-bold" for="emailTxt">メールアドレス</label>
+          </div>
+        </div>
+        <div class="col-6 p-3">
+          <p th:text="${userInfo.email}"></p>
+        </div>
+      </div>
+
+      <!-- パスワード -->
+      <div class="row my-0 border">
+        <div class="col-4 border-right p-3 bg-light row m-0">
+          <div class="col-8">
+            <label class="font-weight-bold" for="passwordTxt">パスワード</label>
+          </div>
+        </div>
+        <div class="col-6 p-3">
+          <p>********</p>
+        </div>
+      </div>
+
+      <!-- 氏名 -->
+      <div class="row my-0 border">
+        <div class="col-4 border-right p-3 bg-light row m-0">
+          <div class="col-8">
+            <label class="font-weight-bold">氏名</label>
+          </div>
+        </div>
+        <div class="col-6 p-3">
+          <p th:text="${userInfo.name1 + userInfo.name2}"></p>
+        </div>
+      </div>
+
+      <!-- 媒体社名/所属部署 -->
+      <div class="row my-0 border">
+        <div class="col-4 border-right p-3 bg-light row m-0">
+          <div class="col-8">
+            <label class="font-weight-bold">媒体社名/所属部署</label>
+          </div>
+        </div>
+        <div class="col-6 p-3">
+          <p th:text="${userInfo.mediumCompanyName}"></p>
+        </div>
+      </div>
+
+      <!-- 媒体種類 -->
+      <div class="row my-0 border">
+        <div class="col-4 border-right p-3 bg-light row m-0">
+          <div class="col-8">
+            <label class="font-weight-bold">媒体種類</label>
+          </div>
+        </div>
+        <div class="col-6 p-3">
+          <p th:text="${userInfo.mediumType}"></p>
+        </div>
+      </div>
+
+      <!-- 媒体名 -->
+      <div class="row my-0 border">
+        <div class="col-4 border-right p-3 bg-light row m-0">
+          <div class="col-8">
+            <label class="font-weight-bold">媒体名</label>
+          </div>
+        </div>
+        <div class="col-6 p-3">
+          <p th:text="${userInfo.mediumName}"></p>
+        </div>
+      </div>
+
+      <!-- 本社所在地 -->
+      <div class="row my-0 border">
+        <div class="col-4 border-right p-3 bg-light row m-0">
+          <div class="col-8">
+            <label class="font-weight-bold">本社所在地</label>
+          </div>
+        </div>
+        <div class="col-6 p-3">
+          <p th:text="${userInfo.address1}"></p>
+          <p th:text="${userInfo.address2}"></p>
+          <p th:text="${userInfo.address3}"></p>
+        </div>
+      </div>
+
+      <!-- 電話番号 -->
+      <div class="row my-0 border">
+        <div class="col-4 border-right p-3 bg-light row m-0">
+          <div class="col-8">
+            <label class="font-weight-bold">電話番号</label>
+          </div>
+        </div>
+        <div class="col-6 p-3">
+          <p th:text="${userInfo.phoneNo1 + 'ー' + userInfo.phoneNo2 + 'ー' + userInfo.phoneNo3}"></p>
+        </div>
+      </div>
+
+      <!-- FAX -->
+      <div class="row my-0 border">
+        <div class="col-4 border-right p-3 bg-light row m-0">
+          <div class="col-8">
+            <label class="font-weight-bold">FAX</label>
+          </div>
+        </div>
+        <div class="col-6 p-3">
+          <p th:text="${userInfo.fax1 + 'ー' + userInfo.fax2 + 'ー' + userInfo.fax3}"></p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 利用規約チェック、ボタン -->
+    <form id="confirmForm" th:action="@{/regist/media/finish}" th:object="${userInfoConfirm}" method="post" novalidate>
+
+      <!-- 表示してない、データ渡すため -->
+      <input type="email" th:value="${userInfo.email}" th:field="*{email}" hidden>
+      <input type="text" th:value="${userInfo.password}" th:field="*{password}" hidden>
+      <input type="text" th:value="${userInfo.name1}" th:field="*{name1}" hidden>
+      <input type="text" th:value="${userInfo.name2}" th:field="*{name2}" hidden>
+      <input type="text" th:value="${userInfo.mediumCompanyName}" th:field="*{mediumCompanyName}" hidden>
+      <input type="text" th:value="${userInfo.mediumType}" th:field="*{mediumType}" hidden>
+      <input type="text" th:value="${userInfo.mediumName}" th:field="*{mediumName}" hidden>
+      <input type="text" th:value="${userInfo.mediumNameExtra}" th:field="*{mediumNameExtra}" hidden>
+      <input type="text" th:value="${userInfo.address1}" th:field="*{address1}" hidden>
+      <input type="text" th:value="${userInfo.address2}" th:field="*{address2}" hidden>
+      <input type="text" th:value="${userInfo.address3}" th:field="*{address3}" hidden>
+      <input type="text" th:value="${userInfo.phoneNo1}" th:field="*{phoneNo1}" hidden>
+      <input type="text" th:value="${userInfo.phoneNo2}" th:field="*{phoneNo2}" hidden>
+      <input type="text" th:value="${userInfo.phoneNo3}" th:field="*{phoneNo3}" hidden>
+      <input type="text" th:value="${userInfo.fax1}" th:field="*{fax1}" hidden>
+      <input type="text" th:value="${userInfo.fax2}" th:field="*{fax2}" hidden>
+      <input type="text" th:value="${userInfo.fax3}" th:field="*{fax3}" hidden>
+
+      <!-- 利用規約 -->
+      <div class="form-check text-center my-3 my-checkbox-row">
+        <input class="form-check-input my-checkbox" type="checkbox" value="" id="termsOfServiceChkBox" checked>
+        <label class="form-check-label pl-2" for="termsOfServiceChkBox">
+          <a class="my-checkbox-a" href="/term"><strong>利用規約</strong></a>に同意する
+        </label>
+        <div id="termsOfServiceChkBoxMsg" style="display: none; font-size: 11px; color: #dc3545;">
+          選択してください！
+        </div>
+      </div>
+
+      <!-- ボタン -->
+      <div class="text-center">
+        <button class="btn my-register-button" onclick="window.history.go(-1);" type="button">入力内容を修正する</button>
+        <button class="btn my-register-button" type="submit">登録する</button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- 共通ヘッダ -->
+  <div th:insert="pr-home-1003.html :: footer"></div>
+
+</body>
+
+</html>

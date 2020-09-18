@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+/*CompanyHeader */
+
+.link a {
+    padding: 0 15px 0 0;
+}
+
+.company-header {
+    background-color: #003366;
+    color: white;
+}
+
+.media-header-a {
+    color: gray;
+}
+
+
+.header-btn a {
+    color: white;
+    font-weight: bold;
+}
+
+.navbar-header a {
+    color: gray;
+    font-weight: bold;
+}
+
+.media-header-b {
+	background-color: #015294;
+	color: white;
+}
+.media-header-b a {
+    color: white;
+    font-weight: bold;
+}
+.dropdown a{
+	color: gray;
+}
+.dropdown-item{
+	color: gray;
+}
+
+/*  */

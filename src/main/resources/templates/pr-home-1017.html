@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" href="img/favicon.png" type="image/png">
+<title>会社プレスリリース一覧</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/themify-icons.css">
+<link rel="stylesheet" href="/css/flaticon.css">
+<link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/vendors/animate-css/animate.css">
+<link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+<link rel="stylesheet" href="/css/headerstyle.css">
+<!-- main CSS -->
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<link rel="stylesheet" href="/css/mystyle.css">
+<link rel="stylesheet" href="/css/headerstyle.css">
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/stellar.js"></script>
+<script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.ajaxchimp.min.js"></script>
+<script src="/js/waypoints.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/contact.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/theme.js"></script>
+<script>
+</script>
+<body>
+    <!-- 共通へッダ -->
+    <div th:insert="pr-home-1002.html :: header"></div>
+    
+    <!-- img-->
+    <div  style="background:Orchid; width:1519px; height:200px;">
+        <div class="container">  
+              <a th:each="prl:${prImage}" th:object="${prl}"> 
+                 <img th:if="*{prImage != null}" th:src="*{prImage}" width="225" height="200">
+              </a>
+        </div>                                   
+ 　　 </div>
+ 
+    <!-- corporatename-->
+   <div style="background:purple;">
+       <div class="container pt-3 pb-2">
+            <h3 th:text=${compInfo.corporateName}></h3>
+       </div>           
+   </div>
+        
+        
+   <div class="container pt-5 pb-5">   
+       <div class="row">
+              
+           <div class="col-8">
+               <div class="row">
+                   <div class="col-7 pt-2 pb-2"  style= "border-bottom:2px solid #c0c0c0;">
+                       <span class="font-weight-bold" th:text=${compInfo.corporateName}></span>
+                       <span class="font-weight-bold">のプレスリリース一覧</span>
+                   </div>
+                   <div class="col-5 pb-2 d-flex justify-content-end" style= "border-bottom:2px solid #c0c0c0;">
+                       <form id="search" class="form-inline" th:action="@{'/company_profile/searchKeyword/' + ${compInfo.id}}">
+                             <input class="form-control" type="search" id="keyword" name="keyword"  th:value=${keyword} placeholder="キーワードで検索" aria-label="Search">
+                             <button class="btn" type="submit" id="toSearch">検索</button>
+                       </form>
+                   </div>
+               </div>
+           </div>
+           
+           <div class="col-8">
+               <div class="row"  th:each="pr:${prList}" th:object="${pr}">
+                   <div class="col-2 pt-2 pb-3" style= "border-bottom:1px solid #c0c0c0;">
+                       <a th:href="@{'/press_release_detail/' + *{prId}}">
+                          <img th:src="*{prImage}" width="120" height="70">
+                       </a>
+                   </div>
+                   <div class="col-10 pt-2 " style= "border-bottom:1px solid #c0c0c0;">
+                       <a th:href="@{'/press_release_detail/' + *{prId}}" th:text="*{prTitle}"></a><br>
+                          <span th:text="*{prDateString}"></span>&nbsp;&nbsp;
+                       <a th:href="@{'/press_release_detail/' + ${compInfo.id}}" th:text="*{CompCorporateName}"></a>
+                   </div>       
+              </div>
+                   <div class="pt-5"style="text-align: center;">
+                       <a class="btn btn-primary" href="#">もっと見る</a>
+                   </div>
+           </div>
+       
+           <div class="p-2 col-4">
+                <div class="ml-5 pt-1"style= "border:1px solid #c0c0c0;">
+                     <h5 th:text=${compInfo.corporateName}></h5>
+                     <div class="py-3 mx-2">
+                          <div style= "border-bottom:1px solid #c0c0c0;">
+                               <p class="font-weight-bold">URL</p>
+                               <span th:text=${compInfo.siteUrl}></span>
+                          </div>
+                          <div style= "border-bottom:1px solid #c0c0c0;">
+                               <p class="font-weight-bold">業種</p>
+                               <span th:text=${compInfo.industryCategory}></span>
+                          </div>
+                          <div style= "border-bottom:1px solid #c0c0c0;">
+                               <p class="font-weight-bold">本社所在地</p>
+                               <span th:text=${compInfo.address1}></span><br>
+                               <span th:text=${compInfo.address2}></span>
+                               <span th:text=${compInfo.address3}></span>
+                          </div>
+                          <div style= "border-bottom:1px solid #c0c0c0;">
+                               <p class="font-weight-bold">電話番号</p>
+                               <span th:text=${compInfo.representativePhoneNo}></span>
+                          </div>
+                          <div style= "border-bottom:1px solid #c0c0c0;">
+                               <p class="font-weight-bold">代表者名</p>
+                               <span th:text=${compInfo.representativeName}></span>
+                          </div>
+                          <div style= "border-bottom:1px solid #c0c0c0;">
+                               <p class="font-weight-bold">上場</p>
+                               <span th:text=${compInfo.listingCategory}></span>
+                          </div>
+                          <div style= "border-bottom:1px solid #c0c0c0;">
+                               <p class="font-weight-bold">資本金</p>
+                               <span th:text=${compInfo.capitalAmount}></span>
+                          </div>                   
+                     </div>
+                </div> 
+           </div>                   
+      </div>            
+ </div>
+   
+    <!-- 共通フッダ -->
+   <div th:insert="pr-home-1003.html :: footer"></div>
+
+</body>
+
+
+
+</html>

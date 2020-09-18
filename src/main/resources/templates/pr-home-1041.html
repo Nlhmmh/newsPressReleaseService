@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--	山口、ミィン	 -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/themify-icons.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+  <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/mystyle.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/jquery-2.2.4.min.js"></script>
+  <script src="/js/popper.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/stellar.js"></script>
+  <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/js/waypoints.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/jquery.form.js"></script>
+  <script src="/js/jquery.validate.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/theme.js"></script>
+
+  <script>
+    $(function () {
+      // 入力チェック定義
+      $("#resetForm").validate({
+        errorElement: "span",
+        errorClass: "error",
+        rules: {
+          password: {
+            required: true,
+            minlength: 6
+          },
+          passwordRe: {
+            required: true,
+            equalTo: "#password"
+          }
+        },
+        messages: {
+          password: {
+            required: "入力してください。",
+            minlength: "6文字以上で入力してください"
+          },
+          passwordRe: {
+            required: "入力してください。",
+            equalTo: "上記と同じパスワードと違っています！"
+          }
+        },
+        submitHandler: function (form) {
+          form.submit();
+        }
+      });
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <!-- 共通フッダ -->
+  <div th:insert="pr-home-1002.html :: header"></div>
+
+  <!-- ボディ -->
+  <div class="container my-5 p-3">
+
+    <!-- 初期表示 -->
+    <div>
+      <h3>パスワード再設定</h3>
+      <p style="font-size: small;">
+        パスワード再設定します。<br>
+        新しく設定するパスワードを入力してください。
+      </p>
+    </div>
+
+    <div class="my-3" style="font-size: small;">
+      <span><strong>必須項目を入力</strong></span> &nbsp;>&nbsp;
+      <span>入力内容を確認</span> &nbsp;>&nbsp;
+      <span>完了</span>
+    </div>
+
+    <div>
+      <span><strong>登録情報の入力</strong></span>
+      <span class="ml-5 text-warning">※は必須項目となっております。</span>
+    </div>
+
+    <!-- リセットフォーム -->
+    <div class="my-3">
+      <form class="needs-validation" id="resetForm" th:action="@{/reset_pwd.do/confirm}" th:object="${userInfo}"
+        method="post">
+
+        <input type="text" th:value="*{email}" th:field="*{email}" hidden>
+
+        <!-- パスワード -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold" for="password">パスワード</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3">
+            <input type="password" class="form-control" id="password" name="password" th:field="*{password}" required>
+            <span id="error" style="display: none; font-size: 11px; color: #dc3545;" for="password">
+              入力してください！
+            </span>
+          </div>
+        </div>
+
+        <!-- パスワード再入力 -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold" for="passwordRe">パスワード再入力</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3">
+            <input type="password" class="form-control" id="passwordRe" name="passwordRe" required>
+            <span id="error" style="display: none; font-size: 11px; color: #dc3545;" for="passwordRe">
+              入力してください！
+            </span>
+          </div>
+        </div>
+        <br>
+        <!-- ボタン -->
+        <div class="text-center">
+          <button class="btn my-register-button" type="submit">入力内容を確認する</button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+  <!-- 共通ヘッダ -->
+  <div th:insert="pr-home-1003.html :: footer"></div>
+
+</body>
+
+</html>

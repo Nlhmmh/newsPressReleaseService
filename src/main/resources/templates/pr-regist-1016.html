@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/themify-icons.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+  <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/mystyle.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/jquery-2.2.4.min.js"></script>
+  <script src="/js/popper.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/stellar.js"></script>
+  <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/js/waypoints.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/jquery.form.js"></script>
+  <script src="/js/jquery.validate.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/theme.js"></script>
+
+  <script>
+
+    // 住所取得
+    function getAddr(cdElmt, rtnElmt) {
+      $.ajax({
+        url: "/api/getaddr?zipCd=" + $("#" + cdElmt).val(),
+        type: "GET",
+        async: false,
+        success: function (obj) {
+          if (obj != "error") {
+            $("#" + rtnElmt).val(obj);
+          }
+        }
+      });
+    }
+
+    function onAddAddress() {
+      // 住所入力ボタン押下
+      getAddr("zipCode", "prefecture");
+    }
+
+    $(document).ready(function () {
+      // フォームバリデーションする。
+      $("#myRegisterForm").submit(function (event) {
+        // 固定設定
+        const EMAIL_VALIDATE = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        // 変数設定
+        var emailTxt = $('#emailTxt');
+        var myPassword = $('#passwordTxt');
+        var myPasswordRe = $('#passwordReTxt');
+        var nameTxt1 = $('#nameTxt1');
+        var nameTxt2 = $('#nameTxt2');
+        var mediumCompanyNameTxt = $('#mediumCompanyNameTxt');
+        var hasChecked = false;
+        var tempMediumType = $('#tempMediumType');
+        var mediumNameTxt = $('#mediumNameTxt');
+        var phoneNo1Txt = $('#phoneNo1Txt');
+        var phoneNo2Txt = $('#phoneNo2Txt');
+        var phoneNo3Txt = $('#phoneNo3Txt');
+        var termsOfServiceChkBox = $('#termsOfServiceChkBox');
+
+        var userNotExistMessage = $('#userNotExistMessage');
+        var emailFormatMessage = $('#emailFormatMessage');
+        var fillMessageEmail = $('#fillMessageEmail');
+        var fillMessage = $('#fillMessage');
+        var wrongMessage = $('#wrongMessage');
+        var fillMessageRe = $('#fillMessageRe');
+        var wrongMessageRe = $('#wrongMessageRe');
+        var nameTxt1Msg = $('#nameTxt1Msg');
+        var nameTxt2Msg = $('#nameTxt2Msg');
+        var mediumCompanyNameTxtMsg = $('#mediumCompanyNameTxtMsg');
+        var fillMediumTypeMsg = $('#fillMediumTypeMsg');
+        var mediumNameTxtMsg = $('#mediumNameTxtMsg');
+        var phoneNo1TxtMsg = $('#phoneNo1TxtMsg');
+        var phoneNo2TxtMsg = $('#phoneNo2TxtMsg');
+        var phoneNo3TxtMsg = $('#phoneNo3TxtMsg');
+        var termsOfServiceChkBoxMsg = $('#termsOfServiceChkBoxMsg');
+
+        // フォームバリデーション前、あるフォームメッセージを消す
+        userNotExistMessage.css("display", "none");
+        emailFormatMessage.css("display", "none");
+        fillMessageEmail.css("display", "none");
+        fillMessage.css("display", "none");
+        wrongMessage.css("display", "none");
+        fillMessageRe.css("display", "none");
+        wrongMessageRe.css("display", "none");
+        nameTxt1Msg.css("display", "none");
+        nameTxt2Msg.css("display", "none");
+        mediumCompanyNameTxtMsg.css("display", "none");
+        fillMediumTypeMsg.css("display", "none");
+        mediumNameTxtMsg.css("display", "none");
+        phoneNo1TxtMsg.css("display", "none");
+        phoneNo2TxtMsg.css("display", "none");
+        phoneNo3TxtMsg.css("display", "none");
+        termsOfServiceChkBoxMsg.css("display", "none");
+
+        // メールチェック
+        if (emailTxt.val() === '') {
+          event.preventDefault();
+          event.stopPropagation();
+          fillMessageEmail.css("display", "block");
+        } else {
+          // 記入したメールのユーザーがあるかどうかを確認する。
+          $.ajax({
+            type: "GET",
+            url: "/api/chkIsMailExist?mail=" + emailTxt.val(),
+            async: false,
+          })
+            .then(function (isUserExist) {
+              // メールチェック
+              if (!EMAIL_VALIDATE.test(String(emailTxt.val()).toLowerCase())) {
+                event.preventDefault();
+                event.stopPropagation();
+                emailFormatMessage.css("display", "block");
+              }
+
+              // 記入したメールのユーザーがないなら、登録できる
+              if (isUserExist == 'true') {
+                event.preventDefault();
+                event.stopPropagation();
+                userNotExistMessage.css("display", "block");
+              }
+            });
+        }
+
+        // パスワードチェック
+        if (myPassword.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          fillMessage.css("display", "block");
+        } else if (!(myPassword.val().length >= 6 && myPassword.val().length <= 12)) {
+          event.preventDefault();
+          event.stopPropagation();
+          wrongMessage.css("display", "block");
+        };
+
+        // 再記入パスワードチェック
+        if (myPasswordRe.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          fillMessageRe.css("display", "block");
+        } else if (myPasswordRe.val() != myPassword.val()) {
+          event.preventDefault();
+          event.stopPropagation();
+          wrongMessageRe.css("display", "block");
+        };
+
+        // 氏名チェック
+        if (nameTxt1.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          nameTxt1Msg.css("display", "block");
+        }
+        if (nameTxt2.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          nameTxt2Msg.css("display", "block");
+        }
+
+        // 媒体社名/所属部署チェック
+        if (mediumCompanyNameTxt.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          mediumCompanyNameTxtMsg.css("display", "block");
+        }
+
+        // 媒体種類に一つせんたくしているかどうかを確認する
+        $('.myRadios').each(function () {
+          if ($(this).is(':checked')) {
+            tempMediumType.val($('input[name=mediumTypes]:checked', '#myRegisterForm').val());
+            hasChecked = true;
+          }
+        });
+
+        // 媒体種類に一つ選択していない時、エラーメッセージを表示する
+        if (!hasChecked) {
+          event.preventDefault();
+          event.stopPropagation();
+          fillMediumTypeMsg.css("display", "block");
+        }
+
+        // 媒体名チェック
+        if (mediumNameTxt.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          mediumNameTxtMsg.css("display", "block");
+        }
+
+        // 媒体名チェック
+        if (phoneNo1Txt.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          phoneNo1TxtMsg.css("display", "block");
+        }
+        if (phoneNo2Txt.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          phoneNo2TxtMsg.css("display", "block");
+        }
+        if (phoneNo3Txt.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          phoneNo3TxtMsg.css("display", "block");
+        }
+
+        // 利用規約チェック
+        if (!termsOfServiceChkBox.is(':checked')) {
+          event.preventDefault();
+          event.stopPropagation();
+          termsOfServiceChkBoxMsg.css("display", "block");
+        }
+      });
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <!-- 共通フッダ -->
+  <div th:insert="pr-home-1002.html :: header"></div>
+
+  <!-- ボディ -->
+  <div class="container my-5 p-3">
+
+    <!-- 初期表示 -->
+    <div>
+      <h3>メディアユーザーとして新規登録する</h3>
+      <p style="font-size: small;">
+        企業からの情報募集、プレスリリースの受信を希望されるメディアの方は、登録申請を行ってください。必要事項をご記入頂きまして、<br>
+        「利用規約を同意した入力内容を確認する」ボタンをクリックください。
+      </p>
+    </div>
+
+    <div class="my-3" style="font-size: small;">
+      <span><strong>必須項目を入力</strong></span> &nbsp;>&nbsp;
+      <span>入力内容を確認</span> &nbsp;>&nbsp;
+      <span>完了</span>
+    </div>
+
+    <div>
+      <span><strong>個人ユーザー情報</strong></span>
+      <span class="ml-5 text-warning">※は必須項目となっております。</span>
+    </div>
+
+    <!-- 登録フォーム -->
+    <div class="my-3">
+      <form class="needs-validation" id="myRegisterForm" th:action="@{/regist/media/confirm}" th:object="${userInfo}"
+        method="post" novalidate>
+
+        <!-- メールアドレス -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold" for="emailTxt">メールアドレス</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3">
+            <div id="userNotExistMessage" style="display: none; font-size: 11px; color: #dc3545;">
+              すでに登録されているメールアドレスです
+            </div>
+            <input type="email" class="form-control" id="emailTxt" th:field="*{email}" required>
+            <div id="emailFormatMessage" style="display: none; font-size: 11px; color: #dc3545;">
+              正しいメールアドレスの形式を入力してください
+            </div>
+            <div id="fillMessageEmail" style="display: none; font-size: 11px; color: #dc3545;">
+              入力してください！
+            </div>
+            <div style="font-size: smaller;">
+              メールアドレスがログインIDになります
+            </div>
+          </div>
+        </div>
+
+        <!-- パスワード -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold" for="passwordTxt">パスワード</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3">
+            <input type="password" class="form-control" id="passwordTxt" th:field="*{password}" required>
+            <div id="fillMessage" style="display: none; font-size: 11px; color: #dc3545;">
+              入力してください！
+            </div>
+            <div id="wrongMessage" style="display: none; font-size: 11px; color: #dc3545;">
+              英数半角6文字以上12文字以下で入力してください！
+            </div>
+            <div style="font-size: smaller;">
+              英数半角6文字以上12文字以下
+            </div>
+          </div>
+        </div>
+
+        <!-- パスワード再入力 -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold" for="passwordReTxt">パスワード再入力</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3">
+            <input type="password" class="form-control" id="passwordReTxt" th:field="*{passwordRe}" required>
+            <div id="fillMessageRe" style="display: none; font-size: 11px; color: #dc3545;">
+              入力してください！
+            </div>
+            <div id="wrongMessageRe" style="display: none; font-size: 11px; color: #dc3545;">
+              上記と同じパスワードと違っています！
+            </div>
+            <div style="font-size: smaller;">
+              確認の為に上記と同じパスワードを再度入力ください
+            </div>
+          </div>
+        </div>
+
+        <!-- 氏名 -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold">氏名</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-3 p-3 row">
+            <div class="col-1"><label for="nameTxt1">姓</label></div>
+            <div class="col-9 pr-0">
+              <input type="text" class="form-control" id="nameTxt1" th:field="*{name1}" required>
+              <div id="nameTxt1Msg" style="display: none; font-size: 11px; color: #dc3545;">
+                入力してください！
+              </div>
+            </div>
+          </div>
+          <div class="col-3 p-3 row">
+            <div class="col-1"><label for="nameTxt2">名</label></div>
+            <div class="col-9 pr-0">
+              <input type="text" class="form-control" id="nameTxt2" th:field="*{name2}" required>
+              <div id="nameTxt2Msg" style="display: none; font-size: 11px; color: #dc3545;">
+                入力してください！
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 媒体社名/所属部署 -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold" for="mediumCompanyNameTxt">媒体社名／所属部署</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3">
+            <input type="text" class=" form-control" id="mediumCompanyNameTxt" th:field="*{mediumCompanyName}" required>
+            <div id="mediumCompanyNameTxtMsg" style="display: none; font-size: 11px; color: #dc3545;">
+              入力してください！
+            </div>
+            <div style="font-size: smaller;">
+              媒体社名／所属部署をご記入ください。フリーランスの方はフリーランスと入力ください
+            </div>
+          </div>
+        </div>
+
+        <!-- 媒体種類 -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold" for="mediumCompanyNameTxt">媒体種類</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3 row ">
+            <div class="px-3 py-1" th:each="mediumType:${mediumTypeList}" th:object="${mediumType}">
+              <input type="radio" name="mediumTypes" class="myRadios" th:value="*{name}">
+              <label for="vehicle1" th:text="*{name}"></label>
+            </div>
+            <div class="col-12 pl-3" style="font-size: smaller;">
+              主に担当する媒体種類を選択ください
+            </div>
+            <div class="col-12 " id="fillMediumTypeMsg" style="display: none; font-size: smaller; color: #dc3545;">
+              選択してください！
+            </div>
+            <input type="text" id="tempMediumType" th:field="*{mediumType}" hidden>
+          </div>
+        </div>
+
+        <!-- 媒体名 -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold">媒体名</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3">
+            <input type="text" class="form-control" id="mediumNameTxt" th:field="*{mediumName}" required>
+            <p class="m-0" style="font-size: smaller;">主に担当する媒体名／URLを入力ください</p>
+            <p class="m-0" style="font-size: smaller;">入力例：●●●（媒体名）／https://www.~（媒体URL）</p>
+            <p class="m-0" style="font-size: smaller;">※サイト等が存在しない場合は不要です</p>
+            <div id="mediumNameTxtMsg" style="display: none; font-size: smaller; color: #dc3545;">
+              入力してください！
+            </div>
+            <textarea style="resize: none;" class="form-control" id="mediumNameExtraTxt"
+              th:field="*{mediumNameExtra}"></textarea>
+            <p style="font-size: smaller;">上記に入力いただいた媒体以外で担当する媒体があれば、媒体名／URLを入力ください（いくつでも）</p>
+          </div>
+        </div>
+
+        <!-- 本社所在地 -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold">本社所在地</label>
+            </div>
+          </div>
+          <div class="col-8 p-3 row">
+            <!-- 郵便番号 -->
+            <div class="col-2"><label style="font-size: small;">郵便番号</label></div>
+            <div class="col-9 pr-0">
+              <div class="row">
+                <div class="col-4">
+                  <input type="text" class="form-control" th:field="*{address1}" id="zipCode">
+                </div>
+                <div class="col-4">
+                  <button class="btn btn-primary" type="button" onclick="onAddAddress()" id="addressInput">住所入力</button>
+                </div>
+              </div>
+              <div class="invalid-feedback col-12">
+                入力してください！
+              </div>
+            </div>
+            <!-- 都道府県市区町村番地 -->
+            <div class="col-2 mt-3"><label style="font-size: small;">都道府県<br>市区町村番地</label></div>
+            <div class="col-9 pr-0 mt-3">
+              <textarea style="resize: none;" class="form-control" th:field="*{address2}" id="prefecture"></textarea>
+              <div class="invalid-feedback">
+                入力してください！
+              </div>
+            </div>
+            <!-- 建物．階数 -->
+            <div class="col-2 mt-3"><label style="font-size: small;">建物．階数</label></div>
+            <div class="col-9 pr-0 mt-3">
+              <input type="text" class="form-control" th:field="*{address3}" id="building">
+              <div class="invalid-feedback">
+                入力してください！
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 電話番号 -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold">電話番号</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-2 p-3">
+            <input type="text" class="form-control" id="phoneNo1Txt" th:field="*{phoneNo1}" required>
+            <div id="phoneNo1TxtMsg" style="display: none; font-size: smaller; color: #dc3545;">
+              入力してください！
+            </div>
+          </div>
+          <div class="p-3">ー</div>
+          <div class="col-2 p-3">
+            <input type="text" class="form-control" id="phoneNo2Txt" th:field="*{phoneNo2}" required>
+            <div id="phoneNo2TxtMsg" style="display: none; font-size: smaller; color: #dc3545;">
+              入力してください！
+            </div>
+          </div>
+          <div class="p-3">ー</div>
+          <div class="col-2 p-3">
+            <input type="text" class="form-control" id="phoneNo3Txt" th:field="*{phoneNo3}" required>
+            <div id="phoneNo3TxtMsg" style="display: none; font-size: smaller; color: #dc3545;">
+              入力してください！
+            </div>
+          </div>
+        </div>
+
+        <!-- FAX -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold">FAX</label>
+            </div>
+          </div>
+          <div class="col-2 p-3">
+            <input type="text" class="form-control" id="faxTxt1" th:field="*{fax1}">
+          </div>
+          <div class="p-3">ー</div>
+          <div class="col-2 p-3">
+            <input type="text" class="form-control" id="faxTxt2" th:field="*{fax2}">
+          </div>
+          <div class="p-3">ー</div>
+          <div class="col-2 p-3">
+            <input type="text" class="form-control" id="faxTxt3" th:field="*{fax3}">
+          </div>
+        </div>
+
+        <!-- 利用規約 -->
+        <div class="form-check text-center my-3 my-checkbox-row">
+          <input class="form-check-input my-checkbox" type="checkbox" id="termsOfServiceChkBox" required>
+          <label class="form-check-label pl-2" for="termsOfServiceChkBox">
+            <a class="my-checkbox-a" href="/term"><strong>利用規約</strong></a>に同意する
+          </label>
+          <div id="termsOfServiceChkBoxMsg" style="display: none; font-size: 11px; color: #dc3545;">
+            選択してください！
+          </div>
+        </div>
+
+        <!-- ボタン -->
+        <div class="text-center">
+          <button class="btn my-register-button" type="submit">規約に同意して入力内容を確認する</button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+  <!-- 共通ヘッダ -->
+  <div th:insert="pr-home-1003.html :: footer"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+@charset "UTF-8";
+th{
+	background-color: #F0F0F0;
+}
+.error,.req{
+		color:#FF3030;
+		text-align:right;
+}
+.form-control:disabled{
+	background-color: #fff;
+	border: 1px solid #fff;
+}
+input:-webkit-autofill {
+	box-shadow: 0 0 0px 1000px white inset !important;
+}
+input[type='checkbox'], input[type='checkbox'i]:disabled{
+	background-color: white;
+    width: 18px;
+    height: 18px;
+    vertical-align:middle;
+}
+select:disabled{
+	appearance:none;
+}

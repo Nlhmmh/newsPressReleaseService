@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="img/favicon.png" type="image/png">
+	<title>SENSE PR-企業ログイン</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/themify-icons.css">
+	<link rel="stylesheet" href="/css/flaticon.css">
+	<link rel="stylesheet" href="/css/mystyle.css">
+	<link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="/vendors/animate-css/animate.css">
+	<link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+	<!-- main css -->
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/responsive.css">
+	<!-- js files(optional) -->
+	<script src="/js/jquery-3.3.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+	<script src="/js/jquery.ajaxchimp.min.js"></script>
+	<script src="/js/jquery.form.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/theme.js"></script>
+	
+	<style>
+		.error{
+			color:#FF3030;
+			text-align:right;
+		}
+		
+	</style>
+	<script>
+		$(function(){
+			
+			// 入力チェック定義
+			$("#loginForm").validate({
+			    errorElement: "span",
+			    errorClass: "error",
+			    rules: {
+			    	username: {
+			            required: true,
+			            maxlength: 100
+			        },
+			        password: {
+			        	required: true,
+			            maxlength: 100
+			        }
+			    },
+			    messages: {
+			    	username: {
+			            required: "メールアドレスを入力してください。",
+			            maxlength: "メールアドレスは100文字以内で入力してください。"
+			        },
+			        password: {
+			            required: "パスワードを入力してください。",
+			            maxlength: "パスワードは100文字以内で入力してください。"
+			        }
+			     },
+			    errorPlacement: function (err, element) {
+		            element.before(err);
+			    }
+			});
+			
+			$("#login_btn").click(function(){
+				
+				clearErrMsg();
+				if (!$('#loginForm').valid()){// 入力チェック
+				    return;
+				}
+				
+				// send ajax request
+				var toUrl = "/user/userLogin";
+				$.ajax({
+					url: toUrl
+					,type:"post"
+					,data:$("#loginForm").serialize()
+					,success: function(obj){
+						if(obj.code == "200" && obj.result){		// to background page
+							toUrl = obj.result;
+							$("#transPageForm").attr("action",toUrl);
+							$("#transPageForm").submit();
+						}
+						if(obj.code == "400" && obj.message){
+							showErrMsg(obj.message);
+						}
+					}
+					,error: function(e){
+						showErrMsg("処理中エラーが発生しました。")
+					}
+				});
+			});
+		});// document.ready
+		function clearErrMsg(){
+			$("#errMsg").hide();
+			$("#errMsg").text();
+		}
+		function showErrMsg(msg){
+			$("#errMsg").text(msg);
+			$("#errMsg").show();
+		}
+	</script>
+	
+</head>
+<body>
+
+	<!-- 共通へッダ -->
+    <div th:insert="pr-home-1002.html :: header"></div>
+
+	<div class="container container-small mt-5 mb-3">
+		<div class="row">
+			<div class="col-sm-3">　</div>
+			<div class="col-sm-6">
+				<div class="area-heading">
+					<h3>ログイン</h3>
+				</div>
+				<div class="alert alert-danger" id="errMsg" style="display:none"></div>
+				<form  method="post" id="loginForm" >
+					<div class="form-group">
+						
+						<label>メールアドレス</label>
+						<input class="form-control input-sm" type="text" name="username" id="username" >
+						<span id="username-error" for="username" class="error btn-block"></span><br>
+						
+						<label>パスワード</label>
+						<input class="form-control input-sm" type="password" name="password" id="password">
+						<span id="password-error" for="password" class="error btn-block"></span><br>
+						
+						<a href="JavaScript:void(0)" id="to_reset_pwd" >パスワードをお忘れの方</a><br><br>
+						<button class="btn btn-info btn-block" type="button" id="login_btn">ログイン</button><br>
+					</div>
+				</form>
+				<a href="/regist/comp" class="btn btn-warning btn-block" id="to_comp_regist">お申し込み</a>
+				<p>SENSE PRでプレスリリース配信・掲載を希望される方は、企業登録申請を行ってください。</p>
+			</div>
+		</div>
+	</div>
+	
+	<hr>
+	<!-- 共通フッダ -->
+    <div th:insert="pr-home-1003.html :: footer"></div>
+	
+<form  method="post" id="transPageForm" style="display:none"></form>
+</body>
+</html>

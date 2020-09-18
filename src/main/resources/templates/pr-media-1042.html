@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 【Media】閲覧履歴 -->
+
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+<title>センスプレスリリース</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/themify-icons.css">
+<link rel="stylesheet" href="/css/flaticon.css">
+<link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/vendors/animate-css/animate.css">
+<link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+<link
+	href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+	rel="stylesheet">
+<!-- main CSS -->
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/stellar.js"></script>
+<script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.ajaxchimp.min.js"></script>
+<script src="/js/waypoints.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/contact.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/theme.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+<style>
+.my-media-nav a {
+	text-decoration: none;
+	color: black;
+}
+
+.my-media-nav div {
+	border-top: 1px solid;
+	border-right: 1px solid;
+	border-left: 1px solid;
+}
+
+.my-media-nav i {
+	border: 1px solid;
+	border-radius: 25px;
+	padding: 10px;
+	font-size: xx-large;
+}
+
+.my-media-nav i:hover {
+	color: blue;
+}
+
+.pr-media-section {
+	padding-bottom: 40px;
+}
+</style>
+
+</head>
+
+<body>
+	<div class="container">
+
+		<!-- <div th:insert="pr-media-1034.html :: header"></div> -->
+
+		<!-- ボディ -->
+		<div class="row">
+
+			<!-- 設定共通左側メニュー -->
+			<div class="col-2" th:insert="pr-media-1039.html :: mediaSettingMenu"></div>
+
+			<!-- 内容 -->
+			<div class="col-10">
+				<h2>閲覧履歴</h2>
+				<br />
+				<div class="row pr-media-section"
+					th:each="browsingHistory : ${browsingHistoryList}">
+					<div class="col-4">
+						<a
+							th:href="@{/press_release_detail(press_release_id=${browsingHistory.id})}">
+							<img th:src="${browsingHistory.imageName}" class="img-thumbnail" width="120" height="70"
+							alt="画像">
+						</a>
+					</div>
+					<div class="col-8">
+						<a
+							th:href="@{/press_release_detail(press_release_id=${browsingHistory.id})}"><span
+							th:text="${browsingHistory.releaseTitle}"></span></a><br/> <a
+							th:href="@{/company_profile(business_id=${browsingHistory.companyId})}"><span
+							th:text="${browsingHistory.corporateName}"></span></a> <span
+							th:text="${#dates.format(browsingHistory.createDatetime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+					</div>
+					<hr class="col-12 p-0 m-1"/>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+
+</html>

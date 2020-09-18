@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/themify-icons.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+  <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/mystyle.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/jquery-2.2.4.min.js"></script>
+  <script src="/js/popper.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/stellar.js"></script>
+  <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/js/waypoints.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/jquery.form.js"></script>
+  <script src="/js/jquery.validate.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/theme.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      // フォームバリデーションする。
+      $("#myRegisterForm").submit(function (event) {
+        // 固定設定
+        const EMAIL_VALIDATE = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        // 変数設定
+        var emailTxt = $('#emailTxt');
+        var fillMessageEmail = $('#fillMessageEmail');
+        var myPassword = $("#passwordTxt");
+        var myPasswordRe = $("#passwordReTxt");
+        var nameTxt1 = $("#nameTxt1");
+        var nameTxt2 = $("#nameTxt2");
+        var termsOfServiceChkBox = $("#termsOfServiceChkBox");
+
+        var emailFormatMessage = $('#emailFormatMessage');
+        var userNotExistMessage = $('#userNotExistMessage');
+        var fillMessage = $("#fillMessage");
+        var wrongMessage = $("#wrongMessage");
+        var fillMessageRe = $("#fillMessageRe");
+        var wrongMessageRe = $("#wrongMessageRe");
+        var name1Msg = $("#name1Msg");
+        var name2Msg = $("#name2Msg");
+        var termsOfServiceChkBoxMsg = $("#termsOfServiceChkBoxMsg");
+
+        // フォームバリデーション前、あるフォームメッセージを消す
+        fillMessageEmail.css("display", "none");
+        emailFormatMessage.css("display", "none");
+        userNotExistMessage.css("display", "none");
+        fillMessage.css("display", "none");
+        wrongMessage.css("display", "none");
+        fillMessageRe.css("display", "none");
+        wrongMessageRe.css("display", "none");
+        name1Msg.css("display", "none");
+        name2Msg.css("display", "none");
+        termsOfServiceChkBoxMsg.css("display", "none");
+
+        if (emailTxt.val() === '') {
+          event.preventDefault();
+          event.stopPropagation();
+          fillMessageEmail.css("display", "block");
+        } else {
+          // 記入したメールのユーザーがあるかどうかを確認する。
+          $.ajax({
+            type: "GET",
+            url: "/api/chkIsMailExist?mail=" + emailTxt.val(),
+            async: false,
+          })
+            .then(function (isUserExist) {
+              // メールチェック
+              if (!EMAIL_VALIDATE.test(String(emailTxt.val()).toLowerCase())) {
+                event.preventDefault();
+                event.stopPropagation();
+                emailFormatMessage.css("display", "block");
+              }
+
+              // 記入したメールのユーザーがないなら、登録できる
+              if (isUserExist == 'true') {
+                event.preventDefault();
+                event.stopPropagation();
+                userNotExistMessage.css("display", "block");
+              }
+            });
+        }
+
+        // パスワードチェック
+        if (myPassword.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          fillMessage.css("display", "block");
+        } else if (!(myPassword.val().length >= 6 && myPassword.val().length <= 12)) {
+          event.preventDefault();
+          event.stopPropagation();
+          wrongMessage.css("display", "block");
+        };
+
+        // 再記入パスワードチェック
+        if (myPasswordRe.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          fillMessageRe.css("display", "block");
+        } else if (myPasswordRe.val() != myPassword.val()) {
+          event.preventDefault();
+          event.stopPropagation();
+          wrongMessageRe.css("display", "block");
+        };
+
+        // 氏名チェック
+        if (nameTxt1.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          name1Msg.css("display", "block");
+        }
+        if (nameTxt2.val() == '') {
+          event.preventDefault();
+          event.stopPropagation();
+          name2Msg.css("display", "block");
+        }
+
+        // 利用規約チェック
+        if (!termsOfServiceChkBox.is(':checked')) {
+          event.preventDefault();
+          event.stopPropagation();
+          termsOfServiceChkBoxMsg.css("display", "block");
+        }
+      });
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <!-- 共通フッダ -->
+  <div th:insert="pr-home-1002.html :: header"></div>
+
+  <!-- ボディ -->
+  <div class="container my-5 p-3">
+
+    <!-- 初期表示 -->
+    <div>
+      <h3>個人ユーザーとして新規登録する</h3>
+      <p style="font-size: small;">
+        プレスリリースの受信を希望される個人ユーザーの方は、登録申請を行ってください。必要事項をご記入頂きまして、<br>
+        「利用規約を同意して入力内容を確認する」ボタンをクリックください。
+      </p>
+    </div>
+
+    <div class="my-3" style="font-size: small;">
+      <span><strong>必須項目を入力</strong></span> &nbsp;>&nbsp;
+      <span>入力内容を確認</span> &nbsp;>&nbsp;
+      <span>完了</span>
+    </div>
+
+    <div>
+      <span><strong>個人ユーザー情報</strong></span>
+      <span class="ml-5 text-warning">※は必須項目となっております。</span>
+    </div>
+
+    <!-- 登録フォーム -->
+    <div class="my-3">
+      <form id="myRegisterForm" th:action="@{/regist/personal/confirm}" th:object="${userInfo}" method="post"
+        novalidate>
+
+        <!-- メールアドレス -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold" for="emailTxt">メールアドレス</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3">
+            <div id="userNotExistMessage" style="display: none; font-size: 11px; color: #dc3545;">
+              すでに登録されているメールアドレスです
+            </div>
+            <input type="email" class="form-control" id="emailTxt" th:field="*{email}" required>
+            <div id="emailFormatMessage" style="display: none; font-size: 11px; color: #dc3545;">
+              正しいメールアドレスの形式を入力してください
+            </div>
+            <div class="invalid-feedback" id="fillMessageEmail">
+              入力してください！
+            </div>
+            <div style="font-size: smaller;">
+              メールアドレスがログインIDになります
+            </div>
+          </div>
+        </div>
+
+        <!-- パスワード -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold" for="passwordTxt">パスワード</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3">
+            <input type="password" class="form-control" id="passwordTxt" th:field="*{password}" required>
+            <div id="fillMessage" style="display: none; font-size: 11px; color: #dc3545;">
+              入力してください！
+            </div>
+            <div id="wrongMessage" style="display: none; font-size: 11px; color: #dc3545;">
+              英数半角6文字以上12文字以下で入力してください！
+            </div>
+            <div style="font-size: smaller;">
+              英数半角6文字以上12文字以下
+            </div>
+          </div>
+        </div>
+
+        <!-- パスワード再入力 -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold" for="passwordReTxt">パスワード再入力</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-6 p-3">
+            <input type="password" class="form-control" id="passwordReTxt" th:field="*{passwordRe}" required>
+            <div id="fillMessageRe" style="display: none; font-size: 11px; color: #dc3545;">
+              入力してください！
+            </div>
+            <div id="wrongMessageRe" style="display: none; font-size: 11px; color: #dc3545;">
+              上記と同じパスワードと違っています！
+            </div>
+            <div style="font-size: smaller;">
+              確認の為に上記と同じパスワードを再度入力ください
+            </div>
+          </div>
+        </div>
+
+        <!-- 氏名 -->
+        <div class="form-group row my-0 border">
+          <div class="col-4 border-right p-3 bg-light row m-0">
+            <div class="col-8">
+              <label class="font-weight-bold">氏名</label>
+            </div>
+            <div class="col-4">
+              <p class="text-warning ml-3">※</p>
+            </div>
+          </div>
+          <div class="col-3 p-3 row">
+            <div class="col-1"><label for="nameTxt1">姓</label></div>
+            <div class="col-9 pr-0">
+              <input type="text" class="form-control" id="nameTxt1" th:field="*{name1}" required>
+              <div id="name1Msg" style="display: none; font-size: 11px; color: #dc3545;">
+                入力してください！
+              </div>
+            </div>
+          </div>
+          <div class="col-3 p-3 row">
+            <div class="col-1"><label for="nameTxt1">名</label></div>
+            <div class="col-9 pr-0">
+              <input type="text" class="form-control" id="nameTxt2" th:field="*{name2}" required>
+              <div id="name2Msg" style="display: none; font-size: 11px; color: #dc3545;">
+                入力してください！
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 利用規約 -->
+        <div class="form-check text-center my-3 my-checkbox-row">
+          <input class="form-check-input my-checkbox" type="checkbox" value="" id="termsOfServiceChkBox" required>
+          <label class="form-check-label pl-2" for="termsOfServiceChkBox">
+            <a class="my-checkbox-a" href="/term"><strong>利用規約</strong></a>に同意する
+          </label>
+          <div id="termsOfServiceChkBoxMsg" style="display: none; font-size: 11px; color: #dc3545;">
+            選択してください！
+          </div>
+        </div>
+
+        <!-- ボタン -->
+        <div class="text-center">
+          <button class="btn my-register-button" type="submit">規約に同意して入力内容を確認する</button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+  <!-- 共通ヘッダ -->
+  <div th:insert="pr-home-1003.html :: footer"></div>
+
+</body>
+
+</html>

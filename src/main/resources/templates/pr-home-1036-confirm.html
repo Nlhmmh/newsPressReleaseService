@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Myint -->
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+    <title>センスプレスリリース</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/themify-icons.css">
+    <link rel="stylesheet" href="/css/flaticon.css">
+    <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+    <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+    <!-- main CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/js/jquery-2.2.4.min.js"></script>
+    <script src="/js/popper.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/stellar.js"></script>
+    <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery.ajaxchimp.min.js"></script>
+    <script src="/js/waypoints.min.js"></script>
+    <script src="/js/mail-script.js"></script>
+    <script src="/js/contact.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/mail-script.js"></script>
+    <script src="/js/theme.js"></script>
+
+    <style type="text/css">
+        .my-register-button {
+            width: 300px;
+            height: 70px;
+            background: orange;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            line-height: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 共通フッダ -->
+    <div th:insert="/pr-home-1002.html :: header"></div>
+
+    <!-- ボディ -->
+    <div class="container my-5 p-3">
+
+        <!-- 初期表示 -->
+        <div>
+            <h3 class="mb-3">パスワード再設定依頼</h3>
+            <p style="font-size: small;">
+                下記のメールアドレスで間違いない場合には「送信する」から次へお進みください。<br>
+                修正が必要な場合は「入力内容を修正する」で前のページに戻ってください。
+            </p>
+        </div>
+
+        <div class="my-3" style="font-size: small;">
+            <span>必須項目を入力</span> &nbsp;>&nbsp;
+            <span style="font-weight: bolder;">入力内容を確認</span> &nbsp;>&nbsp;
+            <span>完了</span>
+        </div>
+
+        <div>
+            <span><strong>登録情報の確認</strong></span>
+        </div>
+
+        <!-- 登録確認 -->
+        <div class="my-3">
+
+            <!-- メールアドレス -->
+            <div class="row my-0 border">
+                <div class="col-4 border-right p-3 bg-light row m-0">
+                    <div class="col-8">
+                        <label class="font-weight-bold" for="emailTxt">メールアドレス</label>
+                    </div>
+                </div>
+                <div class="col-6 p-3">
+                    <p th:text="${userEmailForm.email}"></p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 利用規約チェック、ボタン -->
+        <form class="needs-validation" th:action="@{/reset_pwd/finish}" th:object="${userEmailFormConfirm}" novalidate>
+
+            <!-- 表示してない、データ渡すため -->
+            <input type="email" th:value="${userEmailForm.email}" th:field="*{email}" hidden>
+
+            <!-- ボタン -->
+            <div class="text-center">
+                <button class="btn my-register-button" onclick="window.history.go(-1);" type="button">入力内容を修正する</button>
+                <button class="btn my-register-button" type="submit">登録する</button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- 共通ヘッダ -->
+    <div th:insert="/pr-home-1003.html :: footer"></div>
+
+</body>
+
+</html>

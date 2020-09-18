@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- shu -->
+
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" href="img/favicon.png" type="image/png">
+<title>ユーザー情報</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/themify-icons.css">
+<link rel="stylesheet" href="/css/flaticon.css">
+<link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/vendors/animate-css/animate.css">
+<link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+<!-- main CSS -->
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<link rel="stylesheet" href="/css/headerstyle.css">
+<style>
+</style>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/popper.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/stellar.js"></script>
+<script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.ajaxchimp.min.js"></script>
+<script src="/js/waypoints.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/contact.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/mail-script.js"></script>
+<script src="/js/theme.js"></script>
+</head>
+
+<body>
+	<!-- 企業共通フッダ -->
+	<div th:insert="/pr-home-1019.html :: header"></div>
+
+	<!-- 左側メニュー -->
+	<!--<div th:insert="pr-home-1002.html :: header"></div>  -->
+
+	<div class="container">
+		<h2>設定</h2>
+		<a href="comments.html" th:href="@{/product/user_insert}"
+			class="btn btn-info" 　th:if="${loginUser.withAuthority} eq 1">ユーザー新規登録する</a>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>氏名</th>
+					<th>氏名（カナ）</th>
+					<th>所属部署</th>
+					<th>電話番号</th>
+					<th>FAX</th>
+					<th>メールアドレス</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:object="${loginUser}">
+					<td th:text="*{name}"></td>
+					<td th:text="*{nameKana}"></td>
+					<td th:text="*{department}"></td>
+					<td th:text="*{phoneNo}"></td>
+					<td th:text="*{fax}"></td>
+					<td th:text="*{email}"></td>
+					<td><a href="comments.html"
+						th:href="@{'/product/user_register_edit/' + *{userId}}"
+						class="btn btn-info">編集</a></td>
+				</tr>
+				<tr th:each="cuser : ${compUser}" th:object="${cuser}"
+					th:unless="${cuser.userId} eq '1'">
+					<td th:text="*{name}"></td>
+					<td th:text="*{nameKana}"></td>
+					<td th:text="*{department}"></td>
+					<td th:text="*{phoneNo}"></td>
+					<td th:text="*{fax}"></td>
+					<td th:text="*{email}"></td>
+					<td><a href="comments.html"
+						th:href="@{'/product/user_register_edit/' + *{userId}}"
+						class="btn btn-info">編集</a>
+						<button class="btn btn-danger" data-toggle="modal"
+							data-target="#deleteModal"
+							th:if="${loginUser.withAuthority} eq '1'">削除</button>
+						<div class="modal fade" id="deleteModal" tabindex="-1"
+							role="dialog" aria-labelledby="deleteModalLabel">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-body">
+										<form>
+											<div class="form-group">
+												<label class="control-label">このユーザーを削除致しますか？</label>
+											</div>
+										</form>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">キャンセル</button>
+										<button th:onclick="'deleteuser('+*{userId}+')'"
+											　type="button" class="btn btn-primary" data-dismiss="modal">削除</button>
+									</div>
+								</div>
+							</div>
+						</diV></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+<script>
+	function deleteuser(userId) {
+
+		$.ajax({
+			type : "POST",
+			url : "/deleteUser",
+			data : {
+				"userId" : userId
+			},
+			dateType : "json",
+			success : function(data) {
+				alert(data);
+				console.log(data);
+				window.location.reload();
+			}
+		});
+	};
+</script>
+
+</html>

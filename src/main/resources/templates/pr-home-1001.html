@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Nay -->
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+  <title>センスプレスリリース</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/themify-icons.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+  <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+  <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/mystyle.css">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="/js/jquery-2.2.4.min.js"></script>
+  <script src="/js/popper.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/stellar.js"></script>
+  <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.ajaxchimp.min.js"></script>
+  <script src="/js/waypoints.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/contact.js"></script>
+  <script src="/js/jquery.form.js"></script>
+  <script src="/js/jquery.validate.min.js"></script>
+  <script src="/js/mail-script.js"></script>
+  <script src="/js/theme.js"></script>
+
+  <script>
+    //	ランキングにいま話題のプレスリリースを表示する
+    function getRankingImaWadai() {
+      $('.my-ranking-nav > div').removeClass('active');
+      $('.ranking1').addClass('active');
+      $.ajax({
+        type: "GET",
+        url: "/imawadai",
+      })
+        .then(function (data) {
+          console.log("imawadai");
+          $("#ranking").load("/imawadai");
+        });
+    };
+    //	ランキングに今日のランキングのプレスリリースを表示する
+    function getRankingKyou() {
+      $('.my-ranking-nav > div').removeClass('active');
+      $('.ranking2').addClass('active');
+      $.ajax({
+        type: "GET",
+        url: "/kyou",
+      })
+        .then(function (data) {
+          console.log("kyou");
+          $("#ranking").load("/kyou");
+        });
+    };
+    //	ランキングに今週のランキングのプレスリリースを表示する
+    function getRankingKonShuu() {
+      $('.my-ranking-nav > div').removeClass('active');
+      $('.ranking3').addClass('active');
+      $.ajax({
+        type: "GET",
+        url: "/konshuu",
+      })
+        .then(function (data) {
+          console.log("konshuu");
+          $("#ranking").load("/konshuu");
+        });
+    };
+    //	ランキングに今月のランキングのプレスリリースを表示する
+    function getRankingKonGatsu() {
+      $('.my-ranking-nav > div').removeClass('active');
+      $('.ranking4').addClass('active');
+      $.ajax({
+        type: "GET",
+        url: "/kongatsu",
+      })
+        .then(function (data) {
+          console.log("kongatsu");
+          $("#ranking").load("/kongatsu");
+        });
+    };
+  </script>
+</head>
+
+<body>
+  <!-- 共通フッダ -->
+  <div th:insert="pr-home-1002.html :: header"></div>
+
+  <!-- ボディ -->
+  <div class="container">
+
+    <!-- ランキング -->
+    <div class="row mt-3">
+
+      <!-- ランキングタグ -->
+      <div class="row col-lg-2 col-3 mr-2">
+        <div class="nav my-ranking-nav">
+          <div class="ranking1 my-div p-1 py-3 col-12 d-flex flex-row-reverse active" style="border: 1px solid;">
+            <a href="#" onclick="getRankingImaWadai()">いま話題</a>
+          </div>
+          <div class="ranking2 my-div p-1 py-3 col-12 d-flex flex-row-reverse" style="border: 1px solid;">
+            <a href="#" onclick="getRankingKyou()">今日のランキング</a>
+          </div>
+          <div class="ranking3 my-div p-1 py-3 col-12 d-flex flex-row-reverse" style="border: 1px solid;">
+            <a href="#" onclick="getRankingKonShuu()">今週のランキング</a>
+          </div>
+          <div class="ranking4 my-div p-1 py-3 col-12 d-flex flex-row-reverse" style="border: 1px solid;">
+            <a href="#" onclick="getRankingKonGatsu()">今月のランキング</a>
+          </div>
+          <div class="my-div p-1 py-3 col-12 d-flex flex-row-reverse" style="border: 1px solid;">
+            <a href="/ranking">もっと見る</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ランキングリスト -->
+      <div class="my-pr-a-tag col-lg-10 col-9">
+        <div id="ranking" th:insert="pr-home-1001-ranking.html :: ranking"> </div>
+      </div>
+
+    </div>
+
+    <hr />
+
+    <!-- 新着プレスリリース＆サイトバー -->
+    <div class="row">
+
+      <!-- 新着プレスリリース -->
+      <div class="col-9">
+        <h3 class="my-3">新着プレスリリース</h3>
+        <div class="my-pr-a-tag row mb-3">
+          <div class="row col-6 p-2" th:each="pr:${prList}" th:object="${pr}">
+            <div class="col-8">
+              <p style="font-size: small; line-height: 1.8;">
+                <a th:href="@{'/press_release_detail/' + *{id}}" th:text="*{prTitle}"></a>
+              </p>
+              <div class="my-pr-card">
+                <p th:text="*{prDateString}"></p>
+                <a href="/company_profile" style="font-weight: normal;" th:text="*{companyName}"></a>
+              </div>
+            </div>
+            <div class="col-4">
+              <a th:href="@{'/press_release_detail/' + *{id}}">
+                <img th:if="${pr.prImage == null}" class="card-img-top"
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/800px-No_image_3x4.svg.png">
+                <img th:unless="${pr.prImage == null}" class="card-img-top" th:src="*{prImage}">
+              </a>
+            </div>
+            <hr />
+          </div>
+        </div>
+        <div style="text-align: center;">
+          <a class="btn btn-primary" href="/press_release_list">もっと見る</a>
+        </div>
+        <hr class="p-0 my-4" style="border: 2px solid">
+      </div>
+
+      <!-- サイトバー -->
+      <div class="p-2 col-3 my-side" style="text-align: center;">
+        プレスリリース・ニュースリリース<br>
+        配信サービスのSENSE PR
+        <div>
+          <a href="/about">PRとは</a>
+        </div>
+        <div>
+          <a href="/regist/comp">すぐ無料配信</a>
+        </div>
+        <div>
+          <a href="/regist/media">プレスリリース受信したい</a>
+        </div>
+        <div>
+          <a href="/about">SENSE PRの強み</a>
+        </div>
+        <div>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Coca_Cola_Bottlers_Japan.svg/1024px-Coca_Cola_Bottlers_Japan.svg.png"
+            alt="バナー広告画像">
+        </div>
+        <div>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Coca_Cola_Bottlers_Japan.svg/1024px-Coca_Cola_Bottlers_Japan.svg.png"
+            alt="バナー広告画像">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SENSE PRらのお知らせ -->
+    <div class="row mb-5 col-9 my-notify">
+
+      <div class="col-12" style="font-size: smaller;">
+        <h5 class="my-3">SENSE PRらのお知らせ</h5>
+        <div class="row" th:each="notify:${notifyList}" th:object="${notify}">
+          <div class="col-8"><a th:href="*{notificationUrl}" th:text="*{notificationTitle}"></a></div>
+          <div class="col-4" th:text="*{createDatetimeString}"></div>
+          <hr class="col-12 p-0 m-1">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 共通ヘッダ -->
+  <div th:insert="pr-home-1003.html :: footer"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- Myint -->
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" th:href="@{img/favicon.png}" type="image/png">
+    <title>センスプレスリリース</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/themify-icons.css">
+    <link rel="stylesheet" href="/css/flaticon.css">
+    <link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/vendors/animate-css/animate.css">
+    <link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+    <!-- main CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/js/jquery-2.2.4.min.js"></script>
+    <script src="/js/popper.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/stellar.js"></script>
+    <script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery.ajaxchimp.min.js"></script>
+    <script src="/js/waypoints.min.js"></script>
+    <script src="/js/mail-script.js"></script>
+    <script src="/js/contact.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/mail-script.js"></script>
+    <script src="/js/theme.js"></script>
+    
+    <style>
+        .my-company-nav {
+            background-color: lightgray;
+        }
+
+        .my-company-nav div {
+            width: 150px;
+        }
+
+        .my-company-nav a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .my-company-nav .active {
+            text-decoration: none;
+            color: blue;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $("#sideContent").click( function () {
+            reset_display();
+            var sideMenu = document.getElementById("sideMenu");
+            var sideContent = document.getElementById("sideContent");
+            var sideWrapper = document.getElementById("sidebar-wrapper");
+            sideWrapper.classList.remove("col-6");
+            sideMenu.classList.remove("col-2");
+            sideContent.classList.remove("col-9");
+            sideMenu.classList.add("col-1");
+            sideContent.classList.add("col-11");
+            sideWrapper.classList.add("col-12");
+        });
+    </script>
+</head>
+
+<body>
+    <div class="row">
+
+        <!-- 共通左側メニュー -->
+        <!-- <div class="col-1 p-0" id="sideMenu" th:insert="pr-company-1043.html :: companySideMenu"></div>-->
+
+        <div class="col-11 p-3" id="sideContent">
+
+            <!-- 初期表示 -->
+            <div class="mb-5">
+                <h3>設定</h3>
+            </div>
+            <div class="row border my-company-nav pl-5">
+                <div class="ml-3 py-3"><a href="/company/info">企業情報</a></div>
+                <div class="py-3"><a href="/company/user_info">ユーザー情報</a></div>
+                <div class="py-3"><a href="/company/service_plan" class="active">料金プラン</a></div>
+            </div>
+
+            <!-- プレスリリース配信サービス -->
+            <div class="text-center mt-5">
+                <span style="font-size: x-large;"><strong>プレスリリース配信サービス</strong></span>
+                <span>※料金はすべて税抜き表示です。</span>
+            </div><br><br>
+
+            <!-- 料金プラン -->
+            <div class="d-flex justify-content-center text-center">
+                <div class="mx-2" th:each="plan:${planlist}" th:object="${plan}">
+                    <div class="card-body border" style="width: 10rem; height: 150px;">
+                        <p class="card-text">
+                            <span th:text="*{planName}" style="font-size: large;"></span>プラン<br>
+                            <span th:text="*{planSubTitle}"></span><br th:if="${plan.planSubTitle != ''}">
+                            <span th:text="*{deliverCount} + '配信'" th:if="${plan.deliverCount != 0}"
+                                style=" font-size: smaller;"></span>
+                            <br th:if="${plan.deliverCount != 0}">
+                            ￥<span th:text="*{planPrice}" style="font-size: larger; font-weight: bold;"></span>万円/月<br>
+                            <span th:if="${plan.id == nowplan}" style="color: red; font-size: small;">※ご利用中のプラン</span>
+                        </p>
+                    </div>
+                    <a th:href="${'/company/service_plan_change?service_plan_id='+plan.id}" class="btn btn-primary mt-2"
+                        style="width: 10rem; font-size: small;" th:if="${plan.id != nowplan}">
+                        <span th:if="${plan.serviceUnit == '1'}">従量課金契約に変更する</span>
+                        <span th:if="${plan.serviceUnit == '2'}">月契約に変更する</span>
+                        <span th:if="${plan.serviceUnit == '3'}">年契約に変更する</span>
+                        <span th:if="${plan.serviceUnit == '4'}">半年契約に変更する</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

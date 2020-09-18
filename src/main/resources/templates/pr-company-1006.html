@@ -1,0 +1,968 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" href="img/favicon.png" type="image/png">
+<title>SENSE PR-企業登録申請</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/themify-icons.css">
+<link rel="stylesheet" href="/css/flaticon.css">
+<link rel="stylesheet" href="/css/mystyle.css">
+<link rel="stylesheet" href="/css/pr-company-1006.css">
+<link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/vendors/animate-css/animate.css">
+<link rel="stylesheet" href="/vendors/popup/magnific-popup.css">
+<!-- main css -->
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<!-- js files(optional) -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/vendors/popup/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.ajaxchimp.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/theme.js"></script>
+<script>
+	var fdat;
+	$(function() {
+
+		// 入力チェック定義
+		$("#compRegForm").validate({
+			errorElement : "span",
+			errorClass : "error",
+			rules : {
+				corporateName : {
+					required : true,
+					maxlength : 100
+				},
+				corporateNameKana : {
+					required : true,
+					maxlength : 100
+				},
+				representName : {
+					required : true,
+					maxlength : 100
+				},
+				representPosition : {
+					required : true,
+					maxlength : 100
+				},
+				zipCode : {
+					required : true,
+					maxlength : 20,
+					number : true
+				},
+				prefecture : {
+					required : true,
+					maxlength : 100
+				},
+				building : {
+					maxlength : 100
+				},
+				representPhoneTxt1 : {
+					maxlength : 6,
+					number : true
+				},
+				representPhoneTxt2 : {
+					maxlength : 6,
+					number : true
+				},
+				representPhoneTxt3 : {
+					maxlength : 6,
+					number : true
+				},
+				listingCategory : {
+					required : true,
+				},
+				securityCode : {
+					maxlength : 100
+				},
+				capitalAmount : {
+					maxlength : 100,
+					number : true
+				},
+				numOfEmployee : {
+					maxlength : 100,
+					number : true
+				},
+				siteURL : {
+					maxlength : 100
+				},
+				industryCategory : {
+					required : true
+				},
+				businessCategory1 : {
+					required : true
+				},
+				mailAddress : {
+					required : true,
+					maxlength : 100,
+					email : true
+				},
+				password : {
+					required : true,
+					maxlength : 100
+				},
+				confirmPassword : {
+					required : true,
+					maxlength : 100,
+					equalTo: "#password"
+				},
+				department : {
+					maxlength : 100
+				},
+				nameTxt1 : {
+					required : true,
+					maxlength : 50
+				},
+				nameTxt2 : {
+					required : true,
+					maxlength : 50
+				},
+				nameKanaTxt1 : {
+					required : true,
+					maxlength : 50
+				},
+				nameKanaTxt2 : {
+					required : true,
+					maxlength : 50
+				},
+				phoneTxt1 : {
+					required : true,
+					maxlength : 6,
+					number : true
+				},
+				phoneTxt2 : {
+					required : true,
+					maxlength : 6,
+					number : true
+				},
+				phoneTxt3 : {
+					required : true,
+					maxlength : 6,
+					number : true
+				},
+				billingCompanyName : {
+					required : true,
+					maxlength : 100
+				},
+				billingAddressTxt1 : {
+					required : true,
+					maxlength : 20,
+					number : true
+				},
+				billingAddressTxt2 : {
+					required : true,
+					maxlength : 100
+				},
+				billingAddressTxt3 : {
+					maxlength : 100
+				},
+				billingDepartment : {
+					maxlength : 100
+				},
+				billingNameTxt1 : {
+					required : true,
+					maxlength : 50
+				},
+				billingNameTxt2 : {
+					required : true,
+					maxlength : 50
+				},
+				billingNameKanaTxt1 : {
+					required : true,
+					maxlength : 50
+				},
+				billingNameKanaTxt2 : {
+					required : true,
+					maxlength : 50
+				},
+				billingMail : {
+					required : true,
+					maxlength : 100,
+					email : true
+				},
+				termsOfService : {
+					required : true
+				}
+			},
+			messages : {
+				corporateName : {
+					required : "法人名を入力してください。",
+					maxlength : "法人名は100文字以内で入力してください。"
+				},
+				corporateNameKana : {
+					required : "法人名（カナ）を入力してください。",
+					maxlength : "法人名（カナ）は100文字以内で入力してください。"
+				},
+				representName : {
+					required : "代表者名を入力してください。",
+					maxlength : "代表者名は100文字以内で入力してください。"
+				},
+				representPosition : {
+					required : "代表者役職を入力してください。",
+					maxlength : "代表者役職は100文字以内で入力してください。"
+				},
+				zipCode : {
+					required : "郵便番号を入力してください。",
+					maxlength : "郵便番号は20文字以内で入力してください。",
+					number : "郵便番号は数字で入力してください。"
+				},
+				prefecture : {
+					required : "都道府県を入力してください。",
+					maxlength : "都道府県は100文字以内で入力してください。"
+				},
+				building : {
+					maxlength : "建物・階数は100文字以内で入力してください。"
+				},
+				representPhoneTxt1 : {
+					maxlength : "電話番号が長すぎます。",
+					number : "電話番号は数字で入力してください。"
+				},
+				representPhoneTxt2 : {
+					maxlength : "電話番号が長すぎます。",
+					number : "電話番号は数字で入力してください。"
+				},
+				representPhoneTxt3 : {
+					maxlength : "電話番号が長すぎます。",
+					number : "電話番号は数字で入力してください。"
+				},
+				listingCategory : {
+					required : "上場区分を入力してください。"
+				},
+				building : {
+					maxlength : "証券コードは100文字以内で入力してください。"
+				},
+				capitalAmount : {
+					maxlength : "資本金は100文字以内で入力してください。",
+					number :  "資本金は数字で入力してください。"
+				},
+				numOfEmployee : {
+					maxlength : "社員数は100文字以内で入力してください。",
+					number :  "社員数は数字で入力してください。"
+				},
+				siteURL : {
+					maxlength : "サイトURLは100文字以内で入力してください。"
+				},
+				industryCategory : {
+					required : "業種区分を入力してください。"
+				},
+				businessCategory1 : {
+					required : "ビジネスカテゴリを入力してください。"
+				},
+				mailAddress : {
+					required : "メールアドレスを入力してください。",
+					maxlength : "メールアドレスは100文字以内で入力してください。",
+					email : "メールアドレスのフォーマットが違います。"
+				},
+				password : {
+					required : "パスワードを入力してください。",
+					maxlength : "パスワードは100文字以内で入力してください。",
+				},
+				confirmPassword : {
+					required : "パスワード再入力を入力してください。",
+					maxlength : "パスワード再入力は100文字以内で入力してください。",
+					equalTo: "入力されたパスワードが不一致です。"
+				},
+				department : {
+					maxlength : "所属部署は100文字以内で入力してください。"
+				},
+				nameTxt1 : {
+					required : "氏名を入力してください。",
+					maxlength : "氏名は50文字以内で入力してください。"
+				},
+				nameTxt2 : {
+					required : "氏名を入力してください。",
+					maxlength : "氏名は50文字以内で入力してください。"
+				},
+				nameKanaTxt1 : {
+					required : "氏名（カナ）を入力してください。",
+					maxlength : "氏名（カナ）は50文字以内で入力してください。"
+				},
+				nameKanaTxt2 : {
+					required : "氏名（カナ）を入力してください。",
+					maxlength : "氏名（カナ）は50文字以内で入力してください。"
+				},
+				phoneTxt1 : {
+					required : "電話番号を入力してください。",
+					maxlength : "電話番号が長すぎます。",
+					number : "電話番号は数字で入力してください。"
+				},
+				phoneTxt2 : {
+					required : "電話番号を入力してください。",
+					maxlength : "電話番号が長すぎます。",
+					number : "電話番号は数字で入力してください。"
+				}				,
+				phoneTxt3 : {
+					required : "電話番号を入力してください。",
+					maxlength : "電話番号が長すぎます。",
+					number : "電話番号は数字で入力してください。"
+				},
+				billingCompanyName : {
+					required : "会社名を入力してください。",
+					maxlength : "会社名は100文字以内で入力してください。"
+				},
+				billingAddressTxt1 : {
+					required : "郵便番号を入力してください。",
+					maxlength : "郵便番号は20文字以内で入力してください。",
+					number : "郵便番号は数字で入力してください。"
+				},
+				billingAddressTxt2 : {
+					required : "都道府県を入力してください。",
+					maxlength : "社員数は100文字以内で入力してください。"
+				},
+				billingAddressTxt3 : {
+					maxlength : "建物・階数は100文字以内で入力してください。"
+				},
+				billingDepartment : {
+					maxlength : "所属部署は100文字以内で入力してください。"
+				},
+				billingNameTxt1 : {
+					required : "氏名を入力してください。",
+					maxlength : "氏名は50文字以内で入力してください。"
+				},
+				billingNameTxt2 : {
+					required : "氏名を入力してください。",
+					maxlength : "氏名は50文字以内で入力してください。"
+				},
+				billingNameKanaTxt1 : {
+					required : "氏名（カナ）を入力してください。",
+					maxlength : "氏名（カナ）は50文字以内で入力してください。"
+				},
+				billingNameKanaTxt2 : {
+					required : "氏名（カナ）を入力してください。",
+					maxlength : "氏名（カナ）は50文字以内で入力してください。"
+				},
+				billingMail : {
+					required : "メールアドレスを入力してください。",
+					maxlength : "メールアドレスは100文字以内で入力してください。",
+					email : "メールアドレスのフォーマットが違います。"
+				},
+				termsOfService : {
+					required : "規約に同意してください。"
+				}
+			},
+			errorPlacement : function(err, element) {
+				element.before(err);
+			}
+		});
+		
+		// メール入力完了する度存在チェック
+		$("#mailAddress").blur(function() {
+			chkIsMailExist();
+		});
+
+		// 会社情報、住所入力ボタン押下
+		$("#addressInput").click(function() {
+			ajaxGetAddr("zipCode","prefecture");
+		});
+		// 請求情報、住所入力ボタン押下
+		$("#addressInput_b").click(function() {
+			ajaxGetAddr("billingAddressTxt1","billingAddressTxt2");
+		});
+		// コピーするボタン押下
+		$("#toCopy").click(function() {
+			$("#billingCompanyName").val($("#corporateName").val());
+			$("#billingAddressTxt1").val($("#zipCode").val());
+			$("#billingAddressTxt2").val($("#prefecture").val());
+			$("#billingAddressTxt3").val($("#building").val());
+			$("#billingDepartment").val($("#department").val());
+			$("#billingNameTxt1").val($("#nameTxt1").val());
+			$("#billingNameTxt2").val($("#nameTxt2").val());
+			$("#billingNameKanaTxt1").val($("#nameKanaTxt1").val());
+			$("#billingNameKanaTxt2").val($("#nameKanaTxt2").val());
+			$("#billingMail").val($("#mailAddress").val());
+		});
+		// 規約に同意して入力内容を確認する ボタン押下
+		$("#confirmInputContent").click(function() {
+
+			// 入力チェック
+			clearErrMsg();
+			if ($("#isMailAddressExist").val() == "true" || !$('#compRegForm').valid()) {// has error
+				showErrMsg("入力項目にエラーがあります。ご確認ください。");
+				$('html,body').animate({ scrollTop: calcScrollPlace(".container","#errMsg") }, 500);
+				return;
+			}
+			
+			// input check success
+			fdat = $("#compRegForm").serialize(); // 画面データ保存
+			changeDispMode("confirm");// モード変換
+		});
+		
+		// 入力内容を修正する ボタン押下
+		$("#correctionInputContent").click(function() {
+			// モード変換
+			changeDispMode("input");
+		});
+		// 登録する ボタン押下
+		$("#register").click(function() {
+			// 連打対応
+			var isSending = false;
+			if(!isSending){
+				isSending=true;
+				
+				$.ajax({
+					url : "/regist/comp.do",
+					type : "post",
+					data : fdat,
+					success : function(obj) {
+						isSending = false;// reset
+						
+						if (obj.code == "200") {
+							changeDispMode("finish");
+						}
+						if (obj.code == "400" && obj.message) {
+							showErrMsg(obj.message);
+							$('html,body').animate({ scrollTop: calcScrollPlace(".container","#errMsg") }, 500);
+						}
+					},
+					error : function(e) {
+						isSending = false;// reset
+						
+						showErrMsg("サーバーに繋がりませんでした。");
+						$('html,body').animate({ scrollTop:calcScrollPlace(".container","#errMsg") }, 500);
+					}
+				});
+			}
+		});
+		
+	});// document.ready
+	
+	function init(){
+		changeDispMode("input");
+	}
+	function clearErrMsg() {
+		$("#errMsg").hide();
+		$("#errMsg").text();
+	}
+	function showErrMsg(msg) {
+		$("#errMsg").text(msg);
+		$("#errMsg").show();
+	}
+	//親Elementと子Elementで、子Elementのスクロール位置を計算して返還
+	function calcScrollPlace(pEle,subEle){
+		var mainContainer = $(pEle),
+		scrollToContainer = mainContainer.find(subEle);
+		return scrollToContainer.offset().top - mainContainer.offset().top + mainContainer.scrollTop();
+	}
+	// 住所取得
+	function ajaxGetAddr(cdElmt,rtnElmt){
+		$.ajax({
+			url : "/api/getaddr",
+			type : "post",
+			data : "zipCd=" + $("#"+cdElmt).val(),
+			success : function(obj) {
+				if(obj != "error"){
+					$("#"+rtnElmt).val(obj);
+				}
+			}
+		});
+	}
+	// メール存在チェック
+	function chkIsMailExist(){
+		$.ajax({
+			url : "/api/chkIsMailExist",
+			type : "post",
+			data : "mail=" + $("#mailAddress").val(),
+			success : function(obj) {
+				$("#isMailAddressExist").val(obj);
+				if(obj == "true"){
+					$("span[for='mailAddress']").text("既に存在するメールアドレスです。");
+					$("span[for='mailAddress']").show();
+				} else {
+					$("span[for='mailAddress']").hide();
+					$("span[for='mailAddress']").text("");
+				}
+			}
+		});
+	}
+	
+	function changeDispMode(mode){
+		if (mode == "input"){
+			$("#progress1,#progress2,#progress3").attr("class","text-muted");// 進捗設定
+			$("#progress1").attr("class","text-primary");
+			$("input").removeAttr("disabled","disabled");					// 入力項目無効化
+			$("select").removeAttr("disabled","disabled");
+			$("input[type='checkbox']").removeAttr("onclick");
+			$(".req").show();												// 必須を消す
+			$(".comment").show();
+			$("#toCopy").show();											// ボタン隠す
+			$("#addressInput_b").show();
+			$("#addressInput").show();
+			$("#confirmInputContent").show();								// 最後尾の表示ボタン設置
+			$("#correctionInputContent").hide();
+			$("#register").hide();
+			$('html,body').animate({ scrollTop: calcScrollPlace(".container","#subTitle") }, 500);
+			
+		} else if (mode == "confirm"){
+			$("#progress1,#progress2,#progress3").attr("class","text-muted");// 進捗設定
+			$("#progress2").attr("class","text-primary");
+			$("input").attr("disabled","disabled");							// 入力項目設定
+			$("select").attr("disabled","disabled");
+			$("input[type='checkbox']").removeAttr("disabled","disabled");
+			$("input[type='checkbox']").attr("onclick","this.checked=!this.checked");
+			$(".req").hide();												// 必須項目、コメント設定
+			$(".comment").hide();
+			$("#toCopy").hide();											// ボタン設定
+			$("#addressInput_b").hide();
+			$("#addressInput").hide();
+			$("#confirmInputContent").hide();
+			$("#correctionInputContent").removeAttr("hidden");
+			$("#register").removeAttr("hidden");
+			$("#correctionInputContent").show();
+			$("#register").show();
+			$('html,body').animate({ scrollTop: 0 }, 500);
+			$('html,body').animate({ scrollTop: calcScrollPlace(".container","#subTitle") }, 500);
+			
+		}else if (mode == "finish"){
+			$("#progress1,#progress2,#progress3").attr("class","text-muted");// 進捗設定
+			$("#progress3").attr("class","text-primary");
+			$("#registPage").hide();
+			$("#finishPage").removeAttr("hidden");
+			$('html,body').animate({ scrollTop: calcScrollPlace(".container","#subTitle") }, 500);
+		}
+	}
+	
+</script>
+</head>
+<body>
+
+	<!-- 共通へッダ -->
+	<div th:insert="/pr-home-1002.html :: header"></div>
+	
+	<div class="area-padding">
+		<div class="container">
+			<div class="d-flex justify-content-center">
+				<div class="align-self-center col-sm-10">
+					<div class="row">
+					
+						<!-- タイトル、説明 -->
+						<div class="area-heading">
+							<h4>SENSE-PRからプレスリリース・ニュースリリースを配信したい方へ</h4>
+						</div>
+						<p class="text-left">
+							プレスリリース<a href="/price">料金プランはこちら。</a><br>
+							ご利用・ご申請に際してご不明点がございましたら、<a href="JavaScript:void(0)">こちら</a>からお問い合わせください。
+						</p>
+						
+						<div style='padding-top:40px;padding-bottom:40px;' id="subTitle">
+							<div class="area-heading">
+								<h4>企業登録申請</h4>
+							</div>
+							<p class="text-left m-0">
+								PR TIMESでプレスリリース配信・掲載を希望される方は、企業登録申請（無料）を行ってください。
+							</p>
+							<p class="text-danger m-0" >
+								※サービスのご利用は有料となります。<br>
+								※スタートアップチャレンジは広告代理店・PR会社を利用している企業、または法人格をお持ちでない方には適用されません
+							</p>
+							<p class="text-left m-0">
+								必要事項をご記入頂きまして、「利用規約を同意して入力内容を確認する」ボタンをクリックください。
+							</p>
+						</div>
+						
+						<div class="row">
+							<p class="text-primary" id="progress1">必須項目を入力</p>&nbsp;>&nbsp;
+							<p class="text-muted" id="progress2">入力内容を確認</p>&nbsp;>&nbsp;
+							<p class="text-muted" id="progress3">完了</p>
+						</div>
+						
+						<!-- 情報入力・確認エリア -->
+						<div id='registPage' style="width: 100%"><!-- Form start -->
+						<form id="compRegForm" >
+							<div class="alert alert-danger" id="errMsg" style="display: none"></div>
+							<br>
+							
+							<fieldset>
+	                        	<legend>企業情報<span class="text-danger m-0" style="font-size:10px">　※は必須項目となっております。</span></legend>
+								<table class="table table-bordered">
+									<tr>
+										<th class="text-right">法人名　<span class="req">※</span></th>
+										<td>
+											<input class="form-control input-sm" type="text" name="corporateName" id="corporateName">
+											<span id="corporateName-error" for="corporateName" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">法人名（カナ）　<span class="req">※</span></th>
+										<td>
+											<input class="form-control input-sm" type="text" name="corporateNameKana" id="corporateNameKana">
+											<span class="comment">「株式会社」などの法人格を除く</span><br>
+											<span id="corporateNameKana-error" for="corporateNameKana" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">代表者名　<span class="req">※</span></th>
+										<td>
+											<input class="form-control input-sm" type="text" name="representName" id="representName">
+											<span id="representName-error" for="representName" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">代表者役職　<span class="req">※</span></th>
+										<td>
+											<input class="form-control input-sm" type="text" name="representPosition" id="representPosition">
+											<span id="representPosition-error" for="representPosition" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">法人設立日　　</th>
+										<td>
+											<div class="form-group form-inline" >
+												<select class="form-control" style="width:180px;" name="incorporateYear" id="incorporateYear">
+											      <option value="" >年</option>
+											      <th:block th:each="i:${#numbers.sequence(1970,2020)}">
+											      	<option th:value="${i}" th:text="${i+'年'}" ></option>
+											      </th:block>
+											    </select>　
+											    <select class="form-control"  style="width:180px;" name="incorporateMonth" id="incorporateMonth">
+											      <option value="" >月</option>
+											      <th:block th:each="i:${#numbers.sequence(1,12)}">
+											      	<option th:value="${i}" th:text="${i+'月'}" ></option>
+											      </th:block>
+											    </select>
+										    </div>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">本社所在地　<span class="req">※</span></th>
+										<td>
+											<div class="form-group form-inline">
+												<label for="zipCode" class="comment">郵便番号　　　</label>
+												<input class="form-control input-sm" type="text" style="width:110px;" name="zipCode" id="zipCode">　
+												<button class="btn btn-primary btn-sm" type="button" id="addressInput">住所入力</button>
+												<span id="zipCode-error" for="zipCode" class="error btn-block"></span>
+											</div>
+											<div class="form-group form-inline">
+												<label for="prefecture" class="comment" >都道府県<br>市区町村番地　</label>
+												<input class="form-control input-sm" type="text" name="prefecture" id="prefecture">
+												<span id="prefecture-error" for="prefecture" class="error btn-block"></span>
+											</div>
+											<div class="form-group form-inline">
+												<label for="building" class="comment" >建物・階数　　</label>
+												<input class="form-control input-sm" type="text" name="building" id="building">
+												<span id="building-error" for="building" class="error btn-block"></span>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">代表電話番号　　</th>
+										<td>
+											<div class="form-group form-inline">
+												<input class="form-control input-sm" style="width:100px;" type="text" name="representPhoneTxt1" id="representPhoneTxt1">&nbsp;-&nbsp;
+												<input class="form-control input-sm" style="width:100px;" type="text" name="representPhoneTxt2" id="representPhoneTxt2">&nbsp;-&nbsp;
+												<input class="form-control input-sm" style="width:100px;" type="text" name="representPhoneTxt3" id="representPhoneTxt3">
+												<span id="representPhoneTxt1-error" for="representPhoneTxt1" class="error btn-block"></span>
+												<span id="representPhoneTxt2-error" for="representPhoneTxt2" class="error btn-block"></span>
+												<span id="representPhoneTxt3-error" for="representPhoneTxt3" class="error btn-block"></span>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">上場区分　<span class="req">※</span></th>
+										<td>
+											<select class="form-control"  style="width:180px;" name="listingCategory" id="listingCategory" >
+											    <th:block th:each="obj,stat:${listingCate}" >
+											    	<option th:value="${obj.id}" th:text="${obj.name}" ></option>
+										    	</th:block>
+										    </select>
+											<span id="listingCategory-error" for="listingCategory" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">証券コード　　</th>
+										<td>
+											<input class="form-control input-sm" type="text" name="securityCode" id="securityCode">
+											<span id="securityCode-error" for="securityCode" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">資本金　　</th>
+										<td>
+											<div class="form-group form-inline">
+												<input class="form-control input-sm" type="text" name="capitalAmount" id="capitalAmount">　万円
+												<span id="capitalAmount-error" for="capitalAmount" class="error btn-block"></span>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">社員数　<span class="req">※</span></th>
+										<td>
+											<div class="form-group form-inline">
+												<input class="form-control input-sm" type="text" name="numOfEmployee" id="numOfEmployee">　人
+												<span id="numOfEmployee-error" for="numOfEmployee" class="error btn-block"></span>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">サイトURL　　</th>
+										<td>
+											<input class="form-control input-sm" type="text" name="siteURL" id="siteURL">
+											<span class="comment">企業審査の際、HPを確認させて頂きます。<br>ご入力がない場合、担当者よりご連絡差し上げる場合がございます。</span><br>
+											<span id="siteURL-error" for="siteURL" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">業種区分　<span class="req">※</span></th>
+										<td>
+											<select class="form-control"  style="width:180px;" name="industryCategory" id="industryCategory">
+											    <option value="" ></option>
+											    <th:block th:each="obj,stat:${industryCate}" >
+													<option th:value="${obj.id}" th:text="${obj.name}" ></option>
+									    		</th:block>
+										    </select>
+											<span id="industryCategory-error" for="industryCategory" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">企業カテゴリ　　</th>
+										<td>
+											<th:block th:each="obj,stat:${corporateCate}">
+												<label class="checkbox-inline">
+											        <input type="checkbox" name="corporateCategory" th:value="${obj.id}" >
+											    	<span th:text="${obj.name}"></span>&nbsp;&nbsp;&nbsp;
+											    </label>
+										    </th:block>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">ビジネスカテゴリ　<span class="req">※</span></th>
+										<td>
+											<div class="form-group form-inline">
+												<select class="form-control"  style="width:180px;" name="businessCategory1" id="businessCategory1">
+												      <option value="" ></option>
+												      <th:block th:each="obj,stat:${businessCate}" >
+												    	<th:block th:each="child,cstat:${obj.children}">
+												      		<option th:value="${child.id}" th:text="${child.name}" ></option>
+											    		</th:block>
+											    	</th:block>
+											    </select>　
+											    <select class="form-control"  style="width:180px;" name="businessCategory2" id="businessCategory2">
+												     <option value="" ></option>
+												     <th:block th:each="obj,stat:${businessCate}" >
+												    	<th:block th:each="child,cstat:${obj.children}">
+												      		<option th:if="${child != null}" th:value="${child.id}" th:text="${child.name}" ></option>
+											    		</th:block>
+											    	</th:block>
+											    </select>　
+											    <select class="form-control"  style="width:180px;" name="businessCategory3" id="businessCategory3" >
+												    <option value="" ></option>
+												    <th:block th:each="obj,stat:${businessCate}" >
+												    	<th:block th:each="child,cstat:${obj.children}">
+												      		<option th:value="${child.id}" th:text="${child.name}" ></option>
+											    		</th:block>
+											    	</th:block>
+											    </select>
+												<span id="businessCategory1-error" for="businessCategory1" class="error btn-block"></span>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</fieldset><br>
+							
+							<fieldset>
+                        		<legend>担当者情報<span class="text-danger m-0" style="font-size:10px">　※は必須項目となっております。</span></legend>
+                        		<table class="table table-bordered">
+									<tr>
+										<th class="text-right">メールアドレス　<span class="req">※</span></th>
+										<td>
+											<input class="form-control input-sm" type="text" name="mailAddress" id="mailAddress">
+											<span class="comment">メールアドレスがログインIDになります</span><br>
+											<span id="mailAddress-error" for="mailAddress" class="error btn-block"></span>
+											<input type="hidden" id="isMailAddressExist" />
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">パスワード　<span class="req">※</span></th>
+										<td>
+											<input class="form-control input-sm" type="password" name="password" id="password">
+											<span id="password-error" for="password" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">パスワード再入力　<span class="req">※</span></th>
+										<td>
+											<input class="form-control input-sm" type="password" name="confirmPassword" id="confirmPassword">
+											<span class="comment">確認の為に上記と同じパスワードを再度入力ください</span><br>
+											<span id="confirmPassword-error" for="confirmPassword" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">所属部署　　</th>
+										<td>
+											<input class="form-control input-sm" type="text" name="department" id="department">
+											<span id="department-error" for="department" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">氏名　<span class="req">※</span></th>
+										<td>
+											<div class="form-group form-inline">
+												<span class="comment">　姓　</span>
+												<input class="form-control input-sm" type="text" style="width:180px;" name="nameTxt1" id="nameTxt1">
+												<span class="comment">　名　</span>
+												<input class="form-control input-sm" type="text" style="width:180px;" name="nameTxt2" id="nameTxt2">
+											</div>
+											<span id="nameTxt1-error" for="nameTxt1" class="error btn-block"></span>
+											<span id="nameTxt2-error" for="nameTxt2" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">氏名（カナ）<span class="req">※</span></th>
+										<td>
+											<div class="form-group form-inline">
+												<span class="comment">セイ　</span>
+												<input class="form-control input-sm" type="text" style="width:180px;" name="nameKanaTxt1" id="nameKanaTxt1">
+												<span class="comment">&nbsp;メイ　</span>
+												<input class="form-control input-sm" type="text" style="width:180px;" name="nameKanaTxt2" id="nameKanaTxt2">
+											</div>
+											<span id="nameKanaTxt1-error" for="nameKanaTxt1" class="error btn-block"></span>
+											<span id="nameKanaTxt2-error" for="nameKanaTxt2" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">電話番号　<span class="req">※</span></th>
+										<td>
+											<div class="form-group form-inline">
+												<input class="form-control input-sm" style="width:100px;" type="text" name="phoneTxt1" id="phoneTxt1">&nbsp;-&nbsp;
+												<input class="form-control input-sm" style="width:100px;" type="text" name="phoneTxt2" id="phoneTxt2">&nbsp;-&nbsp;
+												<input class="form-control input-sm" style="width:100px;" type="text" name="phoneTxt3" id="phoneTxt3">
+												<span id="phoneTxt1-error" for="phoneTxt1" class="error btn-block"></span>
+												<span id="phoneTxt2-error" for="phoneTxt2" class="error btn-block"></span>
+												<span id="phoneTxt3-error" for="phoneTxt3" class="error btn-block"></span>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">FAX　　</th>
+										<td>
+											<div class="form-group form-inline">
+												<input class="form-control input-sm" style="width:100px;" type="text" name="faxTxt1" id="faxTxt1">&nbsp;-&nbsp;
+												<input class="form-control input-sm" style="width:100px;" type="text" name="faxTxt2" id="faxTxt2">&nbsp;-&nbsp;
+												<input class="form-control input-sm" style="width:100px;" type="text" name="faxTxt3" id="faxTxt3">
+												<span id="faxTxt1" for="faxTxt1" class="error btn-block"></span>
+												<span id="faxTxt2" for="faxTxt2" class="error btn-block"></span>
+												<span id="faxTxt3" for="faxTxt3" class="error btn-block"></span>
+											</div>
+										</td>
+									</tr>
+								</table>
+                        	</fieldset><br>
+                        	
+                        	<fieldset>
+                        		<legend>請求書送り先<span class="text-danger m-0" style="font-size:10px">　※は必須項目となっております。</span></legend>
+	                        	<p>
+		                        	<button class="btn btn-primary btn-sm" type="button" id="toCopy">コピーする</button>
+		                        	<span class="comment">　請求情報が上記内容と同じ場合は、クリックすると内容がコピーされます。</span>
+	                        	</p>
+                        		<table class="table table-bordered">
+									<tr>
+										<th class="text-right">会社名　<span class="req">※</span></th>
+										<td>
+											<input class="form-control input-sm" type="text" name="billingCompanyName" id="billingCompanyName">
+											<span id="billingCompanyName-error" for="billingCompanyName" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">請求先住所　<span class="req">※</span></th>
+										<td>
+											<div class="form-group form-inline">
+												<label for="name" class="comment">郵便番号　　　</label>
+												<input class="form-control input-sm" type="text" style="width:110px;" name="billingAddressTxt1" id="billingAddressTxt1">　
+												<button class="btn btn-primary btn-sm" type="button" id="addressInput_b">住所入力</button>
+												<span id="billingAddressTxt1-error" for="billingAddressTxt1" class="error btn-block"></span>
+											</div>
+											<div class="form-group form-inline">
+												<label for="name" class="comment">都道府県<br>市区町村番地　</label>
+												<input class="form-control input-sm" type="text" name="billingAddressTxt2" id="billingAddressTxt2">
+												<span id="billingAddressTxt2-error" for="billingAddressTxt2" class="error btn-block"></span>
+											</div>
+											<div class="form-group form-inline">
+												<label for="name" class="comment">建物・階数　　</label>
+												<input class="form-control input-sm" type="text" name="billingAddressTxt3" id="billingAddressTxt3">
+												<span id="billingAddressTxt3-error" for="billingAddressTxt3" class="error btn-block"></span>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">所属部署　　</th>
+										<td>
+											<input class="form-control input-sm" type="text" name="billingDepartment" id="billingDepartment">
+											<span id="billingDepartment-error" for="billingDepartment" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">氏名　<span class="req">※</span></th>
+										<td>
+											<div class="form-group form-inline">
+												<span class="comment">　姓　</span>
+												<input class="form-control input-sm" type="text" style="width:180px;" name="billingNameTxt1" id="billingNameTxt1">
+												<span class="comment">　名　</span>
+												<input class="form-control input-sm" type="text" style="width:180px;" name="billingNameTxt2" id="billingNameTxt2">
+											</div>
+											<span id="billingNameTxt1-error" for="billingNameTxt1" class="error btn-block"></span>
+											<span id="billingNameTxt2-error" for="billingNameTxt2" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">氏名（カナ）<span class="req">※</span></th>
+										<td>
+											<div class="form-group form-inline">
+												<span class="comment">セイ　</span>
+												<input class="form-control input-sm" type="text" style="width:180px;" name="billingNameKanaTxt1" id="billingNameKanaTxt1">
+												<span class="comment">　メイ　</span>
+												<input class="form-control input-sm" type="text" style="width:180px;" name="billingNameKanaTxt2" id="billingNameKanaTxt2">
+											</div>
+											<span id="billingNameKanaTxt1-error" for="billingNameKanaTxt1" class="error btn-block"></span>
+											<span id="billingNameKanaTxt2-error" for="billingNameKanaTxt2" class="error btn-block"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-right">メールアドレス　<span class="req">※</span></th>
+										<td>
+											<input class="form-control input-sm" type="text" name="billingMail" id="billingMail">
+											<span class="comment">請求書(PDF)はメールに添付してお送りします。請求書送付先のメールアドレスを入力ください。</span><br>
+											<span id="billingMail-error" for="billingMail" class="error btn-block"></span>
+										</td>
+									</tr>
+								</table>
+                        	</fieldset><br>
+                       		<div class="area-heading">
+                       			<div class="checkbox checkbox-lg">
+								    <label><input type="checkbox" name="termsOfService" id="termsOfService" value="agree">　<a href="/term">利用規約</a>に同意する</label>
+									<span id="termsOfService-error" for=termsOfService class="error btn-block"></span>
+								</div><br>
+								<button class="btn btn-info" type="button" id="confirmInputContent" >規約に同意して入力内容を確認する</button>
+								<button class="btn btn-primary" type="button" id="correctionInputContent" hidden="hidden">入力内容を修正する</button>　　
+								<button class="btn btn-warning" type="button" id="register" hidden="hidden">登録する</button>
+								<br>
+							</div>
+						</form>
+						</div>
+						<!-- 成功エリア -->
+						<div id="finishPage" style="width:100%;margin-top:40px;" class="text-center" hidden="hidden">
+							<div class="alert alert-success">
+								<br>
+								<h4>登録が完了しました。</h4>
+								<h4>ありがとうございました。</h4>
+								<br>
+							</div><br>
+							<a class="btn btn-success" href="/">トップへ戻る</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 共通フッダ -->
+	<div th:insert="/pr-home-1003.html :: footer"></div>
+
+	<form method="post" id="transPageForm" style="display: none"></form>
+</body>
+</html>
